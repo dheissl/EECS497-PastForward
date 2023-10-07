@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/dheiss/EECS485/p3-insta485-clientside/env"
+VIRTUAL_ENV="/Users/gavenerickson/Desktop/EECS485/p3-insta485-clientside/env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>insta485</title>
+</head>
+<body>
+    <header>
+        <div class="upper-left">
+            <a href="{{ url_for('show_index') }}">Home</a>
+        </div>
+        <div class="upper-right">
+            <a href="{{ url_for('show_explore') }}">explore</a>
+            <a href="{{ url_for('show_user', username=logname) }}">{{ logname }}</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="user-list">
+            <h1>Users to Explore</h1>
+            <ul>
+                <li>
+                    {% for user in not_following %}
+                        <a href="{{ url_for('show_user', username=user.username) }}">
+                            <img src="{{ url_for('uploaded_file', filename=user.profile_picture) }}" alt="{{ user.username }} icon">
+                            {{ user.username }}
+                        </a>
+                        <form action="{{ url_for('handle_follows') }}?target={{ url_for('show_explore') }}" method="post" enctype="multipart/form-data">
+                            <input type="submit" name="follow" value="follow"/>
+                            <input type="hidden" name="username" value="{{ user.username }}"/>
+                            <input type="hidden" name="operation" value="follow"/>
+                        </form>
+                    {% endfor %}
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

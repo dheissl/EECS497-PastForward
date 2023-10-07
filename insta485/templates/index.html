@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>insta485</title>
+</head>
+<body>
+    <header>
+        <div class="upper-left">
+            <a href="{{ url_for('show_index') }}">Home</a>
+        </div>
+        <div class="upper-right">
+            <a href="{{ url_for('show_explore') }}">Explore</a>
+            <a href="{{ url_for('show_user', username=logname) }}">{{ logname }}</a>
+        </div>
+    </header>
+    
+    <main>
+        {% for post in posts %}
+        <article class="post">
+            <div class="post-header">
+                <a href="{{ url_for('show_user', username=post.owner) }}">
+                    <img src="{{ url_for('uploaded_file', filename=post.profile_pic) }}" alt="Profile Picture">
+                    {{post.owner}}
+                </a>
+                <span class="timestamp">
+                    <a href="{{ url_for('show_posts', postid=post.postid) }}">">{{post.timestamp}}</a>
+                </span>
+            </div>
+            <div class="post-content">
+                <img src="{{ url_for('uploaded_file', filename=post.pic) }}" alt="Post Image">
+            </div>
+            <div class="post-footer">
+                <span class="likes">{{post.likes}} like{% if post.likes != 1 %}s{% endif %}</span>
+                {% if post.liked == False %}
+                    <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="operation" value="like"/>
+                        <input type="hidden" name="postid" value="{{postid}}"/>
+                        <input type="submit" name="like" value="like"/>
+                    </form>
+                {% else %}
+                <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="operation" value="unlike"/>
+                        <input type="hidden" name="postid" value="{{postid}}"/>
+                        <input type="submit" name="unlike" value="unlike"/>
+                    </form>
+                {% endif %}
+                <div class="comments">
+                    {% for comment in post.comments %}
+                    <div class="comment">
+                        <span class="comment-owner">
+                            <a href="{{ url_for('show_user', username=comment.owner) }}">{{ comment.owner }}</a>
+                        </span>
+                        <span class="comment-text">
+                            {{ comment.text }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                    <form action="{{ url_for('handle_comments') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="operation" value="create"/>
+                        <input type="hidden" name="postid" value="{{post.postid}}"/>
+                        <input type="text" name="text" required/>
+                        <input type="submit" name="comment" value="comment"/>
+                    </form>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>insta485</title>
+    </head>
+    <body>
+        <header>
+            <div class="upper-left">
+                <a href="{{ url_for('show_index') }}">Home</a>
+            </div>
+            <div class="upper-right">
+                <a href="{{ url_for('show_explore') }}">explore</a>
+                <a href="{{ url_for('show_user', username=logname) }}">{{ logname }}</a>
+            </div>
+        </header>
+        
+        <main>
+            <section class="delete-info">
+                <form action="{{ url_for('show_accounts') }}?target={{ url_for('show_create') }}" method="post" enctype="multipart/form-data">
+                  <input type="submit" name="delete" value="confirm delete account"/>
+                  <input type="hidden" name="operation" value="delete"/>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
