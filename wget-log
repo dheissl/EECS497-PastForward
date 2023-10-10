@@ -1,0 +1,16 @@
+--2023-10-05 10:01:56--  https://eecs485staff.github.io/p1-insta485-static/dot_gitignore_sample
+Resolving eecs485staff.github.io (eecs485staff.github.io)... 205.251.194.180, 198.51.45.5, 198.51.44.5, ...
+Connecting to eecs485staff.github.io (eecs485staff.github.io)|205.251.194.180|:443... failed: Connection timed out.
+Connecting to eecs485staff.github.io (eecs485staff.github.io)|198.51.45.5|:443... failed: Connection timed out.
+Connecting to eecs485staff.github.io (eecs485staff.github.io)|198.51.44.5|:443... failed: Connection timed out.
+Connecting to eecs485staff.github.io (eecs485staff.github.io)|198.51.44.69|:443... failed: Connection timed out.
+Connecting to eecs485staff.github.io (eecs485staff.github.io)|185.199.111.153|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1160 (1.1K) [application/octet-stream]
+Saving to: ‘.gitignore’
+
+     0K .                                                     100% 15.3M=0s
+
+utime(.gitignore): No such file or directory
+2023-10-08 17:16:59 (15.3 MB/s) - ‘.gitignore’ saved [1160/1160]
+
