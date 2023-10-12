@@ -4,10 +4,12 @@ import insta485
 from insta485.api.auth import get_auth
 
 
-@insta485.app.route('/api/v1/like/', methods=['POST'])
+@insta485.app.route('/api/v1/likes/', methods=['POST'])
 def get_like_create():
     """Create one “like” for a specific post. Return 201 on success. If the
         “like” already exists, return the like object with a 200 response."""
+    logname = ""
+    
     if 'logname' not in flask.session:
         username = flask.request.authorization['username']
         password = flask.request.authorization['password']
@@ -20,16 +22,20 @@ def get_like_create():
                 return flask.jsonify(**context), 403
             
             # -2 represents wrong password
-            elif (get_auth(usernme, password) == -2):
+            elif (get_auth(username, password) == -2):
                 context["message"] = "Incorrect Password"
                 context["status_code"] = 403
                 return flask.jsonify(**context), 403
+            else:
+                logname = username
         else:
             return flask.redirect(url_for('show_login'))
+    else:
+        logname = flask.session['logname']
 
     postid = flask.request.args.get('postid')
-    logname = flask.session['logname']
         
+    connection = insta485.model.get_db()
     lik = connection.execute(
         "SELECT owner, likeid "
         "FROM likes "
@@ -60,6 +66,6 @@ def get_like_create():
         return flask.jsonify(**content), 201
     else:
         content["likeid"] = like["likeid"]
-        content["url"] = f"/api/v1/likes/{{ like['likeid'] }}/"
+        content["url"] = f"/api/v1/likes/{ like['likeid'] }/"
         return flask.jsonify(**content), 200
         

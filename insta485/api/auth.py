@@ -1,6 +1,7 @@
 """Authentification."""
 import flask
 import insta485
+import hashlib
 
 def get_auth(username, password):
     connection = insta485.model.get_db()
