@@ -4,7 +4,7 @@ import insta485
 from insta485.api.auth import get_auth
 
 @insta485.app.route('/api/v1/posts/')
-def get_post():
+def get_posts():
     """Return post on postid."""
     params = []
     if flask.request.args.get("size", type=int) is not None:
