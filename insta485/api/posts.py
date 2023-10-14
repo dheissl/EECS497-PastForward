@@ -49,7 +49,7 @@ def get_posts():
             else:
                 logname = username
         else:
-            return flask.redirect(flask.url_for('show_login'))
+            return flask.redirect(flask.url_for('show_login')), 403
     else:
         logname = flask.session['logname']
     username = logname
