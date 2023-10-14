@@ -31,9 +31,9 @@ def get_posts():
     logname = ""
     
     if 'logname' not in flask.session:
-        username = flask.request.authorization['username']
-        password = flask.request.authorization['password']
-        if username is not None:
+        if 'Authorization' in flask.request.headers:
+            username = flask.request.authorization['username']
+            password = flask.request.authorization['password']
             context = {}
             # -1 represents username does not exist
             if (get_auth(username, password) == -1):
@@ -49,7 +49,7 @@ def get_posts():
             else:
                 logname = username
         else:
-            return flask.redirect(url_for('show_login'))
+            return flask.redirect(flask.url_for('show_login'))
     else:
         logname = flask.session['logname']
     username = logname
