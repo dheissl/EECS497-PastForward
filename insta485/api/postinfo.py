@@ -7,28 +7,31 @@ from insta485.api.auth import get_auth
 def get_post(postid):
     """Header stuff"""
 
+    logname = ""
+
     if 'logname' not in flask.session:
-      username = flask.request.authorization['username']
-      password = flask.request.authorization['password']
-      if username is not None:
-        context = {}
-        # -1 represents username does not exist
-        if (get_auth(username, password) == -1):
-          context["message"] = "Username not found"
-          context["status_code"] = 403
-          return flask.jsonify(**context), 403
-        
-        # -2 represents wrong password
-        elif (get_auth(username, password) == -2):
-          context["message"] = "Incorrect Password"
-          context["status_code"] = 403
-          return flask.jsonify(**context), 403
+        if 'Authorization' in flask.request.headers:
+            username = flask.request.authorization['username']
+            password = flask.request.authorization['password']
+            context = {}
+            # -1 represents username does not exist
+            if (get_auth(username, password) == -1):
+                context["message"] = "Username not found"
+                context["status_code"] = 403
+                return flask.jsonify(**context), 403
+
+            # -2 represents wrong password
+            elif (get_auth(username, password) == -2):
+                context["message"] = "Incorrect Password"
+                context["status_code"] = 403
+                return flask.jsonify(**context), 403
+            else:
+                logname = username
         else:
-          logname = username
-      else:
-        return flask.redirect(url_for('show_login'))
+            return flask.redirect(flask.url_for('show_login')), 403
     else:
-      logname = flask.session['logname']
+        logname = flask.session['logname']
+    username = logname
 
     connection = insta485.model.get_db()
     cur = connection.execute(
@@ -39,7 +42,7 @@ def get_post(postid):
 
     if postid > len(allposts):
       return flask.Response('Not Found', 404)
-    
+
     context = {}
     comments = create_comments(postid, logname)
     context['comments'] = comments
@@ -111,7 +114,7 @@ def create_likes(postid, logname):
   if liked == True:
     likes['url'] = f"/api/v1/likes/{like['likeid']}/"
   else:
-    likes['url'] = null
+    likes['url'] = None
   return likes
 
 def create_comments(postid, logname):

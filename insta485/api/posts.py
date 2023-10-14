@@ -29,7 +29,7 @@ def get_posts():
       return flask.Response('BAD REQUEST', 400)
     #todo this being a bitch cant authorize
     logname = ""
-    
+
     if 'logname' not in flask.session:
         if 'Authorization' in flask.request.headers:
             username = flask.request.authorization['username']
@@ -40,7 +40,7 @@ def get_posts():
                 context["message"] = "Username not found"
                 context["status_code"] = 403
                 return flask.jsonify(**context), 403
-            
+
             # -2 represents wrong password
             elif (get_auth(username, password) == -2):
                 context["message"] = "Incorrect Password"
