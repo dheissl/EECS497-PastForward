@@ -6,9 +6,11 @@ from insta485.api.auth import get_auth
 
 @insta485.app.route('/api/v1/comments/<commentid>/', methods=['DELETE'])
 def get_comment_delete(commentid):
-    """Delete a comment. Include the ID of the comment in the URL. Return 204
-     on success. If the commentid does not exist, return 404. If the user \
-     doesn’t own the comment, return 403."""
+    """Delete a comment. Include the ID of the comment in the URL. Return 204.
+
+    on success. If the commentid does not exist, return 404. If the user
+    doesn’t own the comment, return 403.
+    """
     logname = ""
 
     if 'logname' not in flask.session:

@@ -6,8 +6,10 @@ from insta485.api.auth import get_auth
 
 @insta485.app.route('/api/v1/likes/<likeid>/', methods=['DELETE'])
 def get_like_delete(likeid):
-    """Delete one “like”. Return 204 on success. If the likeid does not exist,
-     return 404. If the user does not own the like, return 403."""
+    """Delete one “like”. Return 204 on success. If the likeid does not exist.
+
+    return 404. If the user does not own the like, return 403.
+    """
     logname = ""
 
     if 'logname' not in flask.session:

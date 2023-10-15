@@ -114,6 +114,7 @@ def get_posts():
     return result
 
 def verify_user(username, password):
+  """DOCTRING."""
   connection = insta485.model.get_db()
 
   cred = connection.execute(

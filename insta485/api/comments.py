@@ -6,8 +6,10 @@ from insta485.api.auth import get_auth
 
 @insta485.app.route('/api/v1/comments/', methods=['POST'])
 def get_comment_create():
-    """Add one comment to a post. Include the ID of the new comment in the
-     return data. Return 201 on success."""
+    """Add one comment to a post. Include the ID of the new comment in the.
+
+    return data. Return 201 on success.
+    """
     logname = ""
 
     if 'logname' not in flask.session:

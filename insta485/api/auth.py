@@ -5,6 +5,7 @@ import hashlib
 
 
 def get_auth(username, password):
+    """Docstring."""
     connection = insta485.model.get_db()
 
     cred = connection.execute(

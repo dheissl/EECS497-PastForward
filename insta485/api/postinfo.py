@@ -5,8 +5,7 @@ from insta485.api.auth import get_auth
 
 @insta485.app.route('/api/v1/posts/<int:postid>/')
 def get_post(postid):
-    """Header stuff"""
-
+    """Header stuff."""
     logname = ""
 
     if 'logname' not in flask.session:
@@ -88,6 +87,7 @@ def get_post(postid):
     return flask.jsonify(**context)
 
 def create_likes(postid, logname):
+  """DOCSTRING."""
   connection = insta485.model.get_db()
   cur = connection.execute(
   """SELECT
@@ -117,6 +117,7 @@ def create_likes(postid, logname):
   return likes
 
 def create_comments(postid, logname):
+  """Docstring."""
   connection = insta485.model.get_db()
   cur = connection.execute(
   """SELECT
