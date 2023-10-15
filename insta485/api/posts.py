@@ -109,10 +109,8 @@ def get_posts():
 
     result = {"next": nex, "results": [], "url": base_url}
     for i in range(size):
-      print('YOo')
       result["results"].append({"postid": posts[i]["postid"], 
                           "url": f"/api/v1/posts/{posts[i]['postid']}/"})
-    print(result["results"])
     return result
 
 def verify_user(username, password):
