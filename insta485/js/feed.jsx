@@ -4,7 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);
-  const [nextPageUrl, setNextPageUrl] = useState("/api/v1/posts/?page=0");
+  const [nextPageUrl, setNextPageUrl] = useState("/api/v1/posts/");
 
   const fetchMoreData = () => {
     if (!nextPageUrl) return; // No more posts to fetch

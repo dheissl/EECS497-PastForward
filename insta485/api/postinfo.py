@@ -56,7 +56,7 @@ def get_post(postid):
         posts
     WHERE
         postid = ?""",
-    (f"{postid}")
+    (postid,)
     )
     timenimg = cur.fetchall()
     context['created'] = timenimg[0]['post_created_time']
@@ -72,7 +72,7 @@ def get_post(postid):
         users ON posts.owner = users.username
     WHERE
         posts.postid = ?""",
-    (f"{postid}")
+    (postid,)
     )
     ownernpic = cur.fetchall()
     context['owner'] = ownernpic[0]['owner']
@@ -85,7 +85,6 @@ def get_post(postid):
     likes = create_likes(postid, logname)
     context['likes'] = likes
 
-    print(context)
     return flask.jsonify(**context)
 
 def create_likes(postid, logname):
@@ -97,7 +96,7 @@ def create_likes(postid, logname):
       likes
   WHERE
       postid = ?""",
-  (f"{postid}")
+  (postid,)
   )
   lik = cur.fetchall()
 
@@ -129,7 +128,7 @@ def create_comments(postid, logname):
       comments
   WHERE
       postid = ?""",
-  (f"{postid}")
+  (postid,)
   )
   com = cur.fetchall()
   comments = []
