@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [nextPageUrl, setNextPageUrl] = useState("/api/v1/posts/");
+  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
 
   const fetchMoreData = () => {
     if (!nextPageUrl) return; // No more posts to fetch
@@ -15,7 +16,14 @@ export default function Feed() {
         return response.json();
       })
       .then(data => {
-        setPosts(prevPosts => [...prevPosts, ...data.results]);
+        if (!initialFetchComplete) {
+          // If initial fetch, replace posts with data.results
+          setPosts(data.results);
+          setInitialFetchComplete(true);
+        } else {
+          // If not initial fetch, append to existing posts
+          setPosts(prevPosts => [...prevPosts, ...data.results]);
+        }
         setNextPageUrl(data.next);
       })
       .catch(error => console.log(error));
