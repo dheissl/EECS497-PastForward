@@ -68,6 +68,7 @@ export default function Post({ url }) {
                 })
                 .catch((error) => console.log(error));
             
+            setLikesUrl(null);
             setLognameLikesThis(!lognameLikesThis);
             setNumLikes(numLikes - 1);
         } else {
@@ -77,15 +78,12 @@ export default function Post({ url }) {
                 return response.json();
                 })
                 .then((data) => {
-                    if (!ignoreStaleRequest) {
-                        setLikesUrl(data.url);
-                    }
+                    setLikesUrl(data.url);
                 })
                 .catch((error) => console.log(error));
                 
             setLognameLikesThis(!lognameLikesThis);
             setNumLikes(numLikes + 1);
-                
         }
       };
       
@@ -97,9 +95,7 @@ export default function Post({ url }) {
                 return response.json();
                 })
                 .then((data) => {
-                    if (!ignoreStaleRequest) {
-                        setLikesUrl(data.url);
-                    }
+                    setLikesUrl(data.url);
                 })
                 .catch((error) => console.log(error));
                 
@@ -115,11 +111,9 @@ export default function Post({ url }) {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
             })
-            .then(() => {
-                setComments(comments.filter((comment) => comment.commentid !== commentId));
-            })
             .catch((error) => console.log(error));
             
+        setComments((comments.filter((comment) => comment.commentid !== commentId)));
     };
     
     const enter = (event) => {
@@ -130,8 +124,10 @@ export default function Post({ url }) {
     };
         
     const addComment = () => {
-        const new_comment = {};
-        
+        if (text.trim() === "") {
+            return; // Don't add empty comments
+        }
+    
         fetch(`/api/v1/comments/?postid=${postId}`, {method: "POST",
             credentials: "same-origin",
              headers: {"Content-Type": "application/json",},
@@ -141,13 +137,10 @@ export default function Post({ url }) {
             return response.json();
             })
             .then((data) => {
-                if (!ignoreStaleRequest) {
-                    new_comment = data;
-                }
+                setComments([...comments, data])
             })
             .catch((error) => console.log(error));
         
-        setComments([...comments, new_comment])
         setText("");
     };
 

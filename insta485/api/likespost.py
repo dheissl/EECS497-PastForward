@@ -62,7 +62,7 @@ def get_like_create():
         created = cre.fetchone()
 
         content["likeid"] = created["likeid"]
-        content["url"] = f"/api/v1/likes/{{ created['likeid'] }}/"
+        content["url"] = f"/api/v1/likes/{ created['likeid'] }/"
 
         return flask.jsonify(**content), 201
     else:
