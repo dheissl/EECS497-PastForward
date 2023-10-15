@@ -4,45 +4,29 @@ import PropTypes from "prop-types";
 // The parameter of this function is an object with a string called url inside it.
 // url is a prop for the Post component.
 export default function Like({url, numLikes, lognameLikesThis, postid}, onRun) {
+    const [isLiked, setIsLiked] = useState(lognameLikesThis);
 
-  useEffect(() => {
-    // Declare a boolean flag that we can use to cancel the API request.
-    let ignoreStaleRequest = false;
-    
     const run = () => {
         if (lognameLikesThis){
             fetch(url, { credentials: "same-origin" })
-                .then((response) => {
-                    if (!response.ok) throw Error(response.statusText);
-                    return response.json();
-                })
-                
-                .then((data) => {
-                    if (!ignoreStaleRequest) {
-                        setIsliked(!isLiked);
-                        }
-                })
-                .catch((error) => console.log(error));
+            .then((response) => {
+                if (!response.ok) throw Error(response.statusText);
+                return response.json();
+            })
+            .catch((error) => console.log(error));
+            
+            setIsLiked(!isLiked);
         } else {
-            fetch("/api/v1/likes/?postid=postid", { credentials: "same-origin" })
+            fetch("/api/v1/likes/?postid={postid}", { credentials: "same-origin" })
                 .then((response) => {
                     if (!response.ok) throw Error(response.statusText);
                     return response.json();
                 })
-                
-                .then((data) => {
-                    if (!ignoreStaleRequest) {
-                        setIsliked(!isLiked);
-                    }
-                })
-                .catch((error) => console.log(error));
+            .catch((error) => console.log(error));
+            
+            setIsLiked(!isLiked);
         }
     };
-    
-    return () => {
-        ignoreStaleRequest = true;
-    };
-  }, [lognameLikesThis]);
   
   // Render like and unlike button
   return (
@@ -61,4 +45,5 @@ Post.propTypes = {
   numLikes: PropTypes.number.isRequired,
   lognameLikesThis: PropTypes.bool.isRequired,
   postid: PropTypes.string.isRequired,
+  
 };
