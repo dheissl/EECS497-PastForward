@@ -59,7 +59,7 @@ export default function Post({ url }) {
             setLognameLikesThis(!lognameLikesThis);
             setNumLikes(numLikes - 1);
         } else {
-            fetch("/api/v1/likes/?postid=${postid}", {method: "POST", credentials: "same-origin",})
+            fetch(`/api/v1/likes/?postid=${postId}`, {method: "POST", credentials: "same-origin",})
                 .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
@@ -79,7 +79,7 @@ export default function Post({ url }) {
       
       const doubleClick = () => {
         if (!lognameLikesThis) {
-            fetch("/api/v1/likes/?postid=${postid}", {method: "POST", credentials: "same-origin",})
+            fetch(`/api/v1/likes/?postid=${postId}`, {method: "POST", credentials: "same-origin",})
                 .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
