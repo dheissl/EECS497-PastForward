@@ -3,6 +3,7 @@ import flask
 import insta485
 import hashlib
 
+
 def get_auth(username, password):
     connection = insta485.model.get_db()
 
@@ -28,5 +29,5 @@ def get_auth(username, password):
 
     if db_password != password_string:
         return -2
-    
+
     return 0

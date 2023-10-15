@@ -48,7 +48,7 @@ def get_post(postid):
     context['comments'] = comments
     context['comments_url'] = f"/api/v1/comments/?postid={postid}"
 
-    cur = connection.execute(    
+    cur = connection.execute(
     """SELECT
         created AS post_created_time,
         filename AS image_url
@@ -62,7 +62,7 @@ def get_post(postid):
     context['created'] = timenimg[0]['post_created_time']
     context['imgUrl'] = f"/uploads/{timenimg[0]['image_url']}"
 
-    cur = connection.execute(    
+    cur = connection.execute(
     """SELECT
         posts.owner AS owner,
         users.filename AS pic
@@ -89,9 +89,9 @@ def get_post(postid):
 
 def create_likes(postid, logname):
   connection = insta485.model.get_db()
-  cur = connection.execute(    
+  cur = connection.execute(
   """SELECT
-      owner, likeid 
+      owner, likeid
   FROM
       likes
   WHERE

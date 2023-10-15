@@ -34,7 +34,6 @@ def get_like_delete(likeid):
         logname = flask.session['logname']
     username = logname
 
-
     connection = insta485.model.get_db()
     lik = connection.execute(
         "SELECT owner, likeid "
