@@ -22,6 +22,9 @@ export default function Post({ url }) {
   const [postId, setPostId] = useState(0);
   const [comments, setComments] = useState([]);
   const[text, setText] = useState("");
+  const[profilePic, setProfilePic] = useState("");
+  cont[ownerUrl, setOwnerUrl] = useState("");
+  const[postUrl, setPostUrl] = useStae("");
 
   useEffect(() => {
     // Declare a boolean flag that we can use to cancel the API request.
@@ -45,6 +48,9 @@ export default function Post({ url }) {
           setLikesUrl(data.likes.url);
           setPostId(data.postid);
           setComments(data.comments);
+          setProfilePic(data.ownerImgUrl);
+          setOwnerUrl(data.ownerShowUrl);
+          setPostUrl(data.postShowUrl);
         }
       })
       .catch((error) => console.log(error));
@@ -148,8 +154,18 @@ export default function Post({ url }) {
   // Render post image and post owner
   return (
     <div className="post">
+        <div class="post-header">
+            <a href={ownerUrl}>
+                <img src={profilePic} alt="Profile Picture">
+                {owner}
+            </a>
+            <span class="timestamp">
+                    <a href={postUrl}>{{post.timestamp}}</a>
+            </span>
+        </div>
         <a href={`/Users/${owner}/`}>{owner}</a>
-        <p>{time}</p>
+       {time}
+       </p>
         <img src={imgUrl} alt="post_image" onDoubleClick={() => doubleClick()} />
         <button data-testid="like-unlike-button" onClick={likeButton}>
            {lognameLikesThis ? 'Unlike' : 'Like'}
