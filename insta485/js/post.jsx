@@ -148,9 +148,9 @@ export default function Post({ url }) {
   // Render post image and post owner
   return (
     <div className="post">
-        <img src={imgUrl} alt="post_image" onDoubleClick={() => doubleClick()} />
-        <p>{owner}</p>
+        <a href=`/Users/${owner}/`>{owner}</a>
         <p>{time}</p>
+        <img src={imgUrl} alt="post_image" onDoubleClick={() => doubleClick()} />
         <button data-testid="like-unlike-button" onClick={likeButton}>
            {lognameLikesThis ? 'Unlike' : 'Like'}
         </button>
