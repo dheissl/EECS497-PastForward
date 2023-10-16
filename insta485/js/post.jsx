@@ -7,7 +7,6 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 
-
 // The parameter of this function is an object with a string called url inside it.
 // url is a prop for the Post component.
 export default function Post({ url }) {
@@ -62,127 +61,152 @@ export default function Post({ url }) {
       ignoreStaleRequest = true;
     };
   }, [url]);
-  
-    const likeButton = () => {
-        // Make an API call to like/unlike the post
-        // You will need to implement this API endpoint on your server.
-        if (lognameLikesThis) {
-            fetch(likesUrl, {method: "DELETE", credentials: "same-origin",})
-                .then((response) => {
-                if (!response.ok) throw Error(response.statusText);
-                return response.json();
-                })
-                .catch((error) => console.log(error));
-            
-            setLikesUrl(null);
-            setLognameLikesThis(!lognameLikesThis);
-            setNumLikes(numLikes - 1);
-        } else {
-            fetch(`/api/v1/likes/?postid=${postId}`, {method: "POST", credentials: "same-origin",})
-                .then((response) => {
-                if (!response.ok) throw Error(response.statusText);
-                return response.json();
-                })
-                .then((data) => {
-                    setLikesUrl(data.url);
-                })
-                .catch((error) => console.log(error));
-                
-            setLognameLikesThis(!lognameLikesThis);
-            setNumLikes(numLikes + 1);
-        }
-      };
-      
-    const doubleClick = () => {
-        if (!lognameLikesThis) {
-            fetch(`/api/v1/likes/?postid=${postId}`, {method: "POST", credentials: "same-origin",})
-                .then((response) => {
-                if (!response.ok) throw Error(response.statusText);
-                return response.json();
-                })
-                .then((data) => {
-                    setLikesUrl(data.url);
-                })
-                .catch((error) => console.log(error));
-                
-            setLognameLikesThis(!lognameLikesThis);
-            setNumLikes(numLikes + 1);
-        }
-    };
-        
-    const commentButton = (commentId) => {
-        fetch(`/api/v1/comments/${commentId}`, {method: "DELETE",
-            credentials: "same-origin",})
-            .then((response) => {
-            if (!response.ok) throw Error(response.statusText);
-            return response.json();
-            })
-            .catch((error) => console.log(error));
-            
-        setComments((comments.filter((comment) => comment.commentid !== commentId)));
-    };
-    
-    const enter = (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            addComment();
-        }
-    };
-        
-    const addComment = () => {
-        if (text.trim() === "") {
-            return; // Don't add empty comments
-        }
-    
-        fetch(`/api/v1/comments/?postid=${postId}`, {method: "POST",
-            credentials: "same-origin",
-             headers: {"Content-Type": "application/json",},
-              body: JSON.stringify({text}),})
-            .then((response) => {
-            if (!response.ok) throw Error(response.statusText);
-            return response.json();
-            })
-            .then((data) => {
-                setComments([...comments, data])
-            })
-            .catch((error) => console.log(error));
-        
-        setText("");
-    };
 
+  const likeButton = () => {
+    // Make an API call to like/unlike the post
+    // You will need to implement this API endpoint on your server.
+    if (lognameLikesThis) {
+      fetch(likesUrl, { method: "DELETE", credentials: "same-origin" })
+        .then((response) => {
+          if (!response.ok) throw Error(response.statusText);
+          return response.json();
+        })
+        .catch((error) => console.log(error));
+
+      setLikesUrl(null);
+      setLognameLikesThis(!lognameLikesThis);
+      setNumLikes(numLikes - 1);
+    } else {
+      fetch(`/api/v1/likes/?postid=${postId}`, {
+        method: "POST",
+        credentials: "same-origin",
+      })
+        .then((response) => {
+          if (!response.ok) throw Error(response.statusText);
+          return response.json();
+        })
+        .then((data) => {
+          setLikesUrl(data.url);
+        })
+        .catch((error) => console.log(error));
+
+      setLognameLikesThis(!lognameLikesThis);
+      setNumLikes(numLikes + 1);
+    }
+  };
+
+  const doubleClick = () => {
+    if (!lognameLikesThis) {
+      fetch(`/api/v1/likes/?postid=${postId}`, {
+        method: "POST",
+        credentials: "same-origin",
+      })
+        .then((response) => {
+          if (!response.ok) throw Error(response.statusText);
+          return response.json();
+        })
+        .then((data) => {
+          setLikesUrl(data.url);
+        })
+        .catch((error) => console.log(error));
+
+      setLognameLikesThis(!lognameLikesThis);
+      setNumLikes(numLikes + 1);
+    }
+  };
+
+  const commentButton = (commentId) => {
+    fetch(`/api/v1/comments/${commentId}`, {
+      method: "DELETE",
+      credentials: "same-origin",
+    })
+      .then((response) => {
+        if (!response.ok) throw Error(response.statusText);
+        return response.json();
+      })
+      .catch((error) => console.log(error));
+
+    setComments(comments.filter((comment) => comment.commentid !== commentId));
+  };
+
+  const addComment = () => {
+    if (text.trim() === "") {
+      return; // Don't add empty comments
+    }
+
+    fetch(`/api/v1/comments/?postid=${postId}`, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    })
+      .then((response) => {
+        if (!response.ok) throw Error(response.statusText);
+        return response.json();
+      })
+      .then((data) => {
+        setComments([...comments, data]);
+      })
+      .catch((error) => console.log(error));
+
+    setText("");
+  };
+
+  const enter = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addComment();
+    }
+  };
 
   // Render post image and post owner
   return (
     <div className="post">
-        <a href={ownerUrl}>
-            <img src={profilePic} alt="Profile Picture" />
-            {owner}
-        </a>
-        <a href={posturl}>{time}</a>
-        <img src={imgUrl} alt="post_image" onDoubleClick={() => doubleClick()} />
-        <button data-testid="like-unlike-button" onClick={likeButton}>
-           {lognameLikesThis ? 'Unlike' : 'Like'}
-        </button>
-        <p>{numLikes === 1 ? '1 like' : `${numLikes} likes`}</p>
-        <div className="comments">
+      <a href={ownerUrl}>
+        <img src={profilePic} alt="Profile" />
+        {owner}
+      </a>
+      <a href={postUrl}>{time}</a>
+      <img src={imgUrl} alt="post_image" onDoubleClick={() => doubleClick()} />
+      <button
+        type="button"
+        data-testid="like-unlike-button"
+        onClick={likeButton}
+      >
+        {lognameLikesThis ? "Unlike" : "Like"}
+      </button>
+      <p>{numLikes === 1 ? "1 like" : `${numLikes} likes`}</p>
+      <div className="comments">
         {comments.map((comment) => (
           <div key={comment.commentid}>
             <a href={`/users/${comment.owner}/`}>{comment.owner}</a>
             <span data-testid="comment-text">{comment.text}</span>
             {comment.lognameOwnsThis && (
-                <button data-testid="delete-comment-button" onClick={() =>
-                    commentButton(comment.commentid)}>
-                    Delete Comment
-                </button>
+              <button
+                type="button"
+                data-testid="delete-comment-button"
+                onClick={() => commentButton(comment.commentid)}
+              >
+                Delete Comment
+              </button>
             )}
           </div>
         ))}
-        <form data-testid="comment-form" onSubmit={e => {e.preventDefault();
-                alert('Submitting!'); addComment()}}>
-            <input type="text" value={text} onChange={(e) => setText(e.target.value)}
-                onKeyPress={enter} placeholder="Add a comment..." />
+        <form
+          data-testid="comment-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            addComment();
+          }}
+        >
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyPress={enter}
+            placeholder="Add a comment..."
+          />
         </form>
-        
       </div>
     </div>
   );
