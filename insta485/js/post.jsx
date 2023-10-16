@@ -158,7 +158,7 @@ export default function Post({ url }) {
         <div className="comments">
         {comments.map((comment) => (
           <div key={comment.commentid}>
-            <p>{comment.owner}</p>
+            <a href={`/Users/${comment.owner}/`}>{comment.owner}</a>
             <span data-testid="comment-text">{comment.text}</span>
             {comment.lognameOwnsThis && (
                 <button data-testid="delete-comment-button" onClick={() =>
