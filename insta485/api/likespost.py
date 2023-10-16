@@ -7,10 +7,7 @@ from insta485.api.auth import get_auth
 
 @insta485.app.route('/api/v1/likes/', methods=['POST'])
 def get_like_create():
-    """Create one “like” for a specific post. Return 201 on success. If the.
-    
-    “like” already exists, return the like object with a 200 response.
-    """
+    """Create one “like” for a specific post. Return 201 on success. If the."""
     logname = ""
 
     if 'logname' not in flask.session:

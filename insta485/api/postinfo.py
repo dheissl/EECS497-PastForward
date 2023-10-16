@@ -3,6 +3,7 @@ import flask
 import insta485
 from insta485.api.auth import get_auth
 
+
 @insta485.app.route('/api/v1/posts/<int:postid>/')
 def get_post(postid):
     """Header stuff."""
@@ -34,13 +35,13 @@ def get_post(postid):
 
     connection = insta485.model.get_db()
     cur = connection.execute(
-    "SELECT p.owner AS owner "
-    "FROM posts AS p ",
+        "SELECT p.owner AS owner "
+        "FROM posts AS p ",
     )
     allposts = cur.fetchall()
 
     if postid > len(allposts):
-      return flask.Response('Not Found', 404)
+        return flask.Response('Not Found', 404)
 
     context = {}
     comments = create_comments(postid, logname)
@@ -48,30 +49,28 @@ def get_post(postid):
     context['comments_url'] = f"/api/v1/comments/?postid={postid}"
 
     cur = connection.execute(
-    """SELECT
+        """SELECT
         created AS post_created_time,
         filename AS image_url
     FROM
         posts
     WHERE
-        postid = ?""",
-    (postid,)
+        postid = ?""", (postid,)
     )
     timenimg = cur.fetchall()
     context['created'] = timenimg[0]['post_created_time']
     context['imgUrl'] = f"/uploads/{timenimg[0]['image_url']}"
 
     cur = connection.execute(
-    """SELECT
-        posts.owner AS owner,
-        users.filename AS pic
-    FROM
-        posts
-    INNER JOIN
-        users ON posts.owner = users.username
-    WHERE
-        posts.postid = ?""",
-    (postid,)
+        """SELECT
+            posts.owner AS owner,
+            users.filename AS pic
+        FROM
+            posts
+        INNER JOIN
+            users ON posts.owner = users.username
+        WHERE
+            posts.postid = ?""", (postid,)
     )
     ownernpic = cur.fetchall()
     context['owner'] = ownernpic[0]['owner']
@@ -86,63 +85,63 @@ def get_post(postid):
 
     return flask.jsonify(**context)
 
+
 def create_likes(postid, logname):
-  """DOCSTRING."""
-  connection = insta485.model.get_db()
-  cur = connection.execute(
-  """SELECT
-      owner, likeid
-  FROM
-      likes
-  WHERE
-      postid = ?""",
-  (postid,)
-  )
-  lik = cur.fetchall()
+    """DOCSTRING."""
+    connection = insta485.model.get_db()
+    cur = connection.execute(
+        """SELECT
+            owner, likeid
+        FROM
+            likes
+        WHERE
+            postid = ?""", (postid,)
+    )
+    lik = cur.fetchall()
 
-  liked = False
-  numLikes = 0
-  for like in lik:
-    if like['owner'] == logname:
-      liked = True
-    numLikes += 1
+    liked = False
+    numLikes = 0
+    for like in lik:
+        if like['owner'] == logname:
+            liked = True
+        numLikes += 1
 
-  likes = {}
-  likes['lognameLikesThis'] = liked
-  likes['numLikes'] = numLikes
-  if liked == True:
-    likes['url'] = f"/api/v1/likes/{like['likeid']}/"
-  else:
-    likes['url'] = None
-  return likes
+    likes = {}
+    likes['lognameLikesThis'] = liked
+    likes['numLikes'] = numLikes
+    if liked is True:
+        likes['url'] = f"/api/v1/likes/{like['likeid']}/"
+    else:
+        likes['url'] = None
+    return likes
+
 
 def create_comments(postid, logname):
-  """Docstring."""
-  connection = insta485.model.get_db()
-  cur = connection.execute(
-  """SELECT
-      commentid AS id,
-      text,
-      created,
-      owner
-  FROM
-      comments
-  WHERE
-      postid = ?""",
-  (postid,)
-  )
-  com = cur.fetchall()
-  comments = []
-  for comment in com:
-    val = {}
-    val['commentid'] = comment['id']
-    if comment['owner'] == logname:
-      val['lognameOwnsThis'] = True
-    else:
-      val['lognameOwnsThis'] = False
-    val['owner'] = comment['owner']
-    val['ownerShowUrl'] = f"/users/{comment['owner']}/"
-    val['text'] = comment['text']
-    val['url'] = f"/api/v1/comments/{comment['id']}/"
-    comments.append(val)
-  return comments
+    """Docstring."""
+    connection = insta485.model.get_db()
+    cur = connection.execute(
+          """SELECT
+    commentid AS id,
+    text,
+    created,
+    owner
+    FROM
+    comments
+          WHERE
+    postid = ?""", (postid,)
+    )
+    com = cur.fetchall()
+    comments = []
+    for comment in com:
+        val = {}
+        val['commentid'] = comment['id']
+        if comment['owner'] == logname:
+            val['lognameOwnsThis'] = True
+        else:
+            val['lognameOwnsThis'] = False
+        val['owner'] = comment['owner']
+        val['ownerShowUrl'] = f"/users/{comment['owner']}/"
+        val['text'] = comment['text']
+        val['url'] = f"/api/v1/comments/{comment['id']}/"
+        comments.append(val)
+    return comments
