@@ -66,6 +66,8 @@ export default function Post({ url }) {
     // Make an API call to like/unlike the post
     // You will need to implement this API endpoint on your server.
     if (lognameLikesThis) {
+        console.log(likesUrl);
+        console.log('Credentials:', document.cookie);
       fetch(likesUrl, { method: "DELETE", credentials: "same-origin" })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);

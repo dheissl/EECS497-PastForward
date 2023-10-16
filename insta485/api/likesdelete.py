@@ -52,6 +52,8 @@ def get_like_delete(likeid):
         return flask.jsonify(**context), 404
     elif (like["owner"] != logname):
         context["message"] = "user does not own the like"
+        context["owner"] = like["owner"];
+        context["username"] = username;
         context["status_code"] = 403
         return flask.jsonify(**context), 403
     else:
@@ -60,7 +62,7 @@ def get_like_delete(likeid):
             "WHERE owner = ? AND likeid = ?",
             (logname, likeid,)
         )
-
-        context["message"] = "delete like with likeid = {{likeid}}"
+        
+        context["username"] = username;
         context["status_code"] = 204
-        return flask.jsonify(**context), 204
+        return context, 204
