@@ -150,6 +150,16 @@ export default function Post({ url }) {
     <div className="post">
         <a href={`/Users/${owner}/`}>{owner}</a>
         <p>{time}</p>
+        <div class="post-header">
+            <a href={ownerUrl}>
+                <img src={profilePic} alt="Profile Picture" />
+                {owner}
+            </a>
+            <span class="timestamp">
+                    <a href={postUrl}>{time}</a>
+            </span>
+        </div>
+       </p>
         <img src={imgUrl} alt="post_image" onDoubleClick={() => doubleClick()} />
         <button data-testid="like-unlike-button" onClick={likeButton}>
            {lognameLikesThis ? 'Unlike' : 'Like'}
