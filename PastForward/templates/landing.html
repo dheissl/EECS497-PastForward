@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/landing.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
     <title>PastForward</title>
 </head>
 <body>
 
     <div class="text-section">
-        <div class="logo">
+        <div class="logo-with-header">
             <img src="{{ url_for('static', filename='src/logo.png') }}"  alt="PastForward Logo">
+            <h1>PastForward</h1>
         </div>
-        <h1>Your memories, forever</h1>
+        <div class="catchphrase">
+            <h1>Your memories, forever</h1>
+        </div>
         <div class="stats">
-            <span>5m+ Users aged 75+</span>
-            <span>1m+ Families connected</span>
+            <div class="stat">
+                <span class="number">5m+</span>
+                <span class="text">Users aged&#8239;75+</span>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+                <span class="number">1m+</span>
+                <span class="text">Families connected</span>
+            </div>
         </div>
         <div class="buttons">
             <a href="{{ url_for('show_login') }}"><button type="button">Log In</button></a>

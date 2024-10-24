@@ -26,29 +26,47 @@ body {
     object-fit: cover; /* Ensures the image doesn't stretch */
 }
 
-.buttons button {
-    padding: 5vh 5vw;
-    font-size: 2em;
-    color: #4B0082;
-    background-color: white;
-    border: none;
-    border-radius: 1vh;
-    margin: .75vw;
-    cursor: pointer;
-}
-
-.buttons button:hover {
-    background-color: #f0f0f0;
-}
-
-
-/* Basic reset and box-sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+.create-info {
+    display: flex; /* Enables flexbox layout */
+    flex-direction: column;
+    align-items: center; /* Aligns items vertically at the center */
+    justify-content: center;
+}
+
+form {
+    display: flex; /* Enables flexbox layout */
+    flex-direction: column; /* Stacks elements vertically */
+    align-items: center; /* Centers the items horizontally */
+    gap: 2vh; /* Adds spacing between the elements */
+    width: 25vw;
+}
+
+.create-info input {
+    padding: 2vh; /* Adds padding for better spacing */
+    margin-bottom: 1vh; /* Adds margin below each input */
+    border: none; /* Removes border */
+    border-radius: 1vh; /* Rounds input corners */
+    outline: none; /* Removes the default focus outline */
+    width: 100%;
+}
+
+.create-info input::placeholder {
+    text-align: center;
+}
+
+.create-info input[type="submit"] {
+    background-color: #2E1A57; /* Adds background color */
+    color: white; /* White text color for contrast */
+    font-size: 5vh;
+    cursor: pointer; /* Changes the cursor to pointer on hover */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0);
+}
 
 .text-section {
     flex: 1.5;  
@@ -58,52 +76,12 @@ body {
     justify-content: center;
 }
 
-.catchphrase{
-    padding: 3vh;
+.login{
+    padding-top: 1vh;
 }
 
-.stats {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 3vh;
-}
-
-.stat {
-    text-align: left;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 0 20px;
-}
-
-.number {
-    font-size: 48px;
-    font-weight: bold;
-    background: linear-gradient(to right, #FFB800, #FF616D); /* Gradient from orange to pink */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.text {
-    padding-left: 1vw;
-    font-size: 18px;
-    color: #D3C1F2; /* Light purple text */
-    margin-top: 5px;
-    width: 7vw; /* Restricting the width */
-}
-
-.divider {
-    width: 2px;
-    height: 50px;
-    background-color: #D3C1F2; /* Light purple color */
-}
-
-.buttons {
-    margin-top: 8vh;
-
+.login a {
+    color: red;
 }
 
 .photos {

@@ -1,30 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>PastForward</title>
-    </head>
-    <body>
-        <header>
-            <div class="upper-left">
-                <a href="{{ url_for('show_index') }}">Home</a>
-            </div>
-            <div class="upper-right">
-                <a href="{{ url_for('show_login') }}">login</a>
-            </div>
-        </header>
-        
-        <main>
-            <section class="create-info">
-                <form action="{{ url_for('show_accounts') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
-                  <input type="file" name="file" required/>
-                  <input type="text" name="fullname" required/>
-                  <input type="text" name="username" required/>
-                  <input type="text" name="email" required/>
-                  <input type="password" name="password" required/>
-                  <input type="submit" name="signup" value="sign up"/>
-                  <input type="hidden" name="operation" value="create"/>
-                </form>
-            </section>
-        </main>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create.css') }}">
+    <title>PastForward</title>
+</head>
+<body>
+
+    <div class="text-section">
+        <div class="logo-with-header">
+            <a href="{{ url_for('show_index') }}"><img src="{{ url_for('static', filename='src/logo.png') }}"  alt="PastForward Logo"></a>
+            <h1>PastForward</h1>
+        </div>
+        <section class="create-info">
+            <form action="{{ url_for('show_accounts') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
+                <div class="custom-file-upload">
+                    <label for="file-upload" class="custom-file-label">Choose Profile Photo</label>
+                    <input id="file-upload" type="file" name="file" required/>
+                </div>
+                <input type="text" name="fullname" placeholder="Enter your full name" required/>
+                <input type="text" name="email" placeholder="Enter your email" required/>
+                <input type="text" name="username" placeholder="Create a username" required/>
+                <input type="password" name="password" placeholder="Create a password" required/>
+                <input type="submit" name="signup" value="Sign Up"/>
+                <input type="hidden" name="operation" value="create"/>
+            </form>
+        </section>
+        <div class="login">
+            <span>Already Signed Up?</span>
+            <a href="{{ url_for('show_login') }}">Click Here to Login</a>
+        </div>
+    </div>
+    <div class="photos">
+        <div class="photo-grid">
+            <img src="{{ url_for('static', filename='src/photo1.png') }}" alt="Family photo">
+            <img src="{{ url_for('static', filename='src/photo2.png') }}" alt="Grandfather and grandchild">
+            <img src="{{ url_for('static', filename='src/photo3.png') }}" alt="Family walking with dog">
+            <img src="{{ url_for('static', filename='src/photo4.png') }}" alt="Grandfather and grandchild playing">
+            <img src="{{ url_for('static', filename='src/photo5.png') }}" alt="Mother and daughter">
+        </div>
+        <div class="photo-grid2">
+            <img src="{{ url_for('static', filename='src/photo1.png') }}" alt="Family photo">
+            <img src="{{ url_for('static', filename='src/photo2.png') }}" alt="Grandfather and grandchild">
+            <img src="{{ url_for('static', filename='src/photo3.png') }}" alt="Family walking with dog">
+            <img src="{{ url_for('static', filename='src/photo4.png') }}" alt="Grandfather and grandchild playing">
+            <img src="{{ url_for('static', filename='src/photo5.png') }}" alt="Mother and daughter">
+        </div>
+    </div>
+</body>
 </html>
