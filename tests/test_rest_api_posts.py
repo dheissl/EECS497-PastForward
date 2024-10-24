@@ -160,7 +160,7 @@ def test_posts_pagination_simple(client):
     # Delete all likes, comments and posts.  The default database contains
     # postids {1,2,3,4}.  We're going to delete those and add new posts later
     # in this test.  The new posts will start with postid=5.
-    connection = sqlite3.connect("var/insta485.sqlite3")
+    connection = sqlite3.connect("var/PastForward.sqlite3")
     connection.execute("PRAGMA foreign_keys = ON")
     connection.execute("DELETE FROM likes")
     connection.execute("DELETE FROM comments")
@@ -264,7 +264,7 @@ def test_posts_pagination_page_size(client):
     # Delete all likes, comments and posts.  The default database contains
     # postids {1,2,3,4}.  We're going to delete those and add new posts later
     # in this test.  The new posts will start with postid=5.
-    connection = sqlite3.connect("var/insta485.sqlite3")
+    connection = sqlite3.connect("var/PastForward.sqlite3")
     connection.execute("PRAGMA foreign_keys = ON")
     connection.execute("DELETE FROM likes")
     connection.execute("DELETE FROM comments")
@@ -368,7 +368,7 @@ def test_posts_pagination_upload_between_requests(client):
     # Delete all likes, comments and posts.  The default database contains
     # postids {1,2,3,4}.  We're going to delete those and add new posts later
     # in this test.  The new posts will start with postid=5.
-    connection = sqlite3.connect("var/insta485.sqlite3")
+    connection = sqlite3.connect("var/PastForward.sqlite3")
     connection.execute("PRAGMA foreign_keys = ON")
     connection.execute("DELETE FROM likes")
     connection.execute("DELETE FROM comments")
@@ -441,7 +441,7 @@ def test_posts_pagination_upload_between_requests(client):
     }
 
     # Create one new post
-    connection = sqlite3.connect("var/insta485.sqlite3")
+    connection = sqlite3.connect("var/PastForward.sqlite3")
     connection.execute("PRAGMA foreign_keys = ON")
     connection.execute(
         "INSERT INTO posts(owner, filename) "

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PastForward</title>
+</head>
+<body>
+    <header>
+        <div class="upper-left">
+            <a href="{{ url_for('show_index') }}">Home</a>
+        </div>
+        <div class="upper-right">
+            <a href="{{ url_for('show_explore') }}">explore</a>
+            <a href="{{ url_for('show_user', username=logname) }}">{{ logname }}</a>
+        </div>
+    </header>
+
+    <main>
+        {% for user in users %}
+        <section class="profile-info">
+            <h1>{{ user.username }}</h1>
+            {% if logname == user.username %}
+                <div><a href="{{ url_for('show_edit') }}">Edit profile</a></div>
+                <form action="{{ url_for('show_logout') }}" method="post" enctype="multipart/form-data">
+                <input type="submit" name="logout" value="Logout"/>
+                </form>
+            {% else %}
+                {% if user.logname_follows %}
+                <div>following
+                <form action="{{ url_for('handle_follows') }}?target={{ url_for('show_user', username=username) }}" method="post" enctype="multipart/form-data">
+                  <input type="submit" name="unfollow" value="unfollow"/>
+                  <input type="hidden" name="username" value="user.username"/>
+                  <input type="hidden" name="operation" value="unfollow"/>
+                </form>
+                </div>
+                {% else %}
+                <div>not following
+                <form action="{{ url_for('handle_follows') }}?target={{ url_for('show_user', username=username) }}" method="post" enctype="multipart/form-data">
+                  <input type="submit" name="follow" value="follow"/>
+                  <input type="hidden" name="username" value="user.username"/>
+                  <input type="hidden" name="operation" value="follow"/>
+                </form>
+                </div>
+                {% endif %}
+            {% endif %}
+            <p>{{ user.total_posts }} posts</p>
+            <p><a href="{{ url_for('show_followers', username=user.username) }}">{{ user.total_followers }} follower{% if user.total_followers != 1 %}s{% endif %}</a></p>
+            <p><a href="{{ url_for('show_following', username=user.username) }}">{{ user.total_following }} following</a></p>
+            <p>{{ user.fullname }}</p>
+            {% if logname == user.username %}
+            <form action="{{ url_for('handle_posts') }}?target={{ url_for('show_user', username=username) }}" method="post" enctype="multipart/form-data">
+              <input type="file" name="file" accept="image/*" required/>
+              <input type="submit" name="create_post" value="upload new post"/>
+              <input type="hidden" name="operation" value="create"/>
+            </form>
+            {% endif %}
+        </section>
+
+        <section class="post-thumbnails">
+            {% if 0 == user.total_posts %}
+            <p>No posts yet.</p>
+            {% endif %}
+            {% for post in user.posts %}
+            <a href="{{ url_for('show_posts', postid=post.postid) }}">
+                <img src="{{ url_for('uploaded_file', filename=post.filename) }}" alt="Post {{ post.postid }}">
+            </a>
+            {% endfor %}
+        </section>
+        {% endfor %}
+    </main>
+</body>
+</html>

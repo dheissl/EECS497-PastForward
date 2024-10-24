@@ -68,10 +68,10 @@ module.exports = defineConfig({
           return prettier.format(source, { parser: "html" });
         },
 
-        // When a test runs cy.task("seedDb"), run `./bin/insta485db` from the directory
+        // When a test runs cy.task("seedDb"), run `./bin/pastforwarddb` from the directory
         // Cypress was initially run in, which should be the solution directory.
         seedDb() {
-          const executable = path.join(process.env.PWD, "bin/insta485db");
+          const executable = path.join(process.env.PWD, "bin/pastforwarddb");
           return execFile(executable, ["reset"], {
             cwd: process.env.PWD,
           });

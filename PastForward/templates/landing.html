@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/landing.css">
+    <title>PastForward</title>
+</head>
+<body>
+
+    <div class="text-section">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='src/logo.png') }}"  alt="PastForward Logo">
+        </div>
+        <h1>Your memories, forever</h1>
+        <div class="stats">
+            <span>5m+ Users aged 75+</span>
+            <span>1m+ Families connected</span>
+        </div>
+        <div class="buttons">
+            <a href="{{ url_for('show_login') }}"><button type="button">Log In</button></a>
+            <a href="{{ url_for('show_create') }}"><button type="button">Sign Up</button></a>
+        </div>
+    </div>
+    <div class="photos">
+        <div class="photo-grid">
+            <img src="{{ url_for('static', filename='src/photo1.png') }}" alt="Family photo">
+            <img src="{{ url_for('static', filename='src/photo2.png') }}" alt="Grandfather and grandchild">
+            <img src="{{ url_for('static', filename='src/photo3.png') }}" alt="Family walking with dog">
+            <img src="{{ url_for('static', filename='src/photo4.png') }}" alt="Grandfather and grandchild playing">
+            <img src="{{ url_for('static', filename='src/photo5.png') }}" alt="Mother and daughter">
+        </div>
+        <div class="photo-grid2">
+            <img src="{{ url_for('static', filename='src/photo1.png') }}" alt="Family photo">
+            <img src="{{ url_for('static', filename='src/photo2.png') }}" alt="Grandfather and grandchild">
+            <img src="{{ url_for('static', filename='src/photo3.png') }}" alt="Family walking with dog">
+            <img src="{{ url_for('static', filename='src/photo4.png') }}" alt="Grandfather and grandchild playing">
+            <img src="{{ url_for('static', filename='src/photo5.png') }}" alt="Mother and daughter">
+        </div>
+    </div>
+</body>
+</html>

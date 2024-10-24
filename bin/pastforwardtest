@@ -1,0 +1,23 @@
+#!/bin/bash
+# pastforwardtest
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+
+# Exit on any error and print each command before running it
+set -e -x
+
+# Run pycodestyle
+pycodestyle PastForward
+
+# Run pydocstyle
+pydocstyle PastForward
+
+# Run pylint
+pylint PastForward
+
+# Run unit tests using pytest
+pytest -v tests
+
+npx eslint --ext jsx PastForward/js
+npx prettier --check PastForward/js

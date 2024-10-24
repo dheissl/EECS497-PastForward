@@ -1,0 +1,17 @@
+#!/bin/bash
+# pastforwardrun
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+
+# Check if the database file exists
+if [ ! -f var/PastForward.sqlite3 ]; then
+  echo "Error: can't find database var/PastForward.sqlite3"
+  echo "Try: ./bin/pastforwarddb create"
+  exit 1
+fi
+
+npx webpack --watch &
+
+# Run the development server on port 8000
+flask --app PastForward --debug run --host 0.0.0.0 --port 8000

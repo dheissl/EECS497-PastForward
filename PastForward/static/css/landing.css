@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #4B0082;
+    color: white;
+    text-align: center;
+    display: flex;           /* Enables flexbox layout */
+    justify-content: space-between;
+    height: 100vh;  
+    width: 100vw; 
+}
+
+
+.buttons button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #4B0082;
+    background-color: white;
+    border: none;
+    border-radius: 8px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* Basic reset and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.text-section {
+    flex: 2;  
+    font-family: Arial, sans-serif; /* Set a default font */
+    display: flex; /* Using flexbox to create a responsive layout */
+    flex-direction: column;
+    justify-content: center;
+    padding: 5%; /* Add some padding */
+}
+
+.buttons {
+    position: absolute; /* Positioning footer at the bottom */
+    bottom: 0;
+}
+
+.photos {
+    flex: 1;  
+    display: flex; /* Flex container for side-by-side layout */
+    justify-content: flex-end; /* Align horizontal items to the right */
+    align-items: flex-end; /* Align items vertically to the bottom */
+    width: 100%; /* Ensure full width */
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-grid, .photo-grid2 {
+    display: flex;
+    flex-direction: column;
+    width: 40%; /* Adjust width as needed */
+}
+
+.photo-grid {
+
+    top: 10vh;
+}
+
+.photo-grid2 {
+    margin-left: .5vw;
+
+}
+
+.photo-grid img, .photo-grid2 img {
+    margin-bottom: 1vh;
+    position: relative;
+    z-index: 1; /* Adjust z-index appropriately */
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(250, 250, 250);
+}
+.flex-items:nth-child(1) {
+
+}
+
+.flex-items:nth-child(2) {
+
+}

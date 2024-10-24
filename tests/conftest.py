@@ -19,7 +19,7 @@ import subprocess
 import sqlite3
 
 import pytest
-import insta485
+import PastForward
 
 # Set up logging
 LOGGER = logging.getLogger("autograder")
@@ -40,13 +40,13 @@ def client_setup_teardown():
     subprocess.run(["bin/insta485db", "reset"], check=True)
 
     # Configure Flask test server
-    insta485.app.config["TESTING"] = True
+    PastForward.app.config["TESTING"] = True
 
     # Transfer control to test.  The code before the "yield" statement is setup
     # code, which is executed before the test.  Code after the "yield" is
     # teardown code, which is executed at the end of the test.  Teardown code
     # is executed whether the test passed or failed.
-    with insta485.app.test_client() as client:
+    with PastForward.app.test_client() as client:
         yield client
 
     # Teardown code starts here

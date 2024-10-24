@@ -8,7 +8,7 @@ requires = ["setuptools>=64.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "insta485"
+name = "PastForward"
 version = "1.0.0"
 dependencies = [
     "arrow",
@@ -24,7 +24,7 @@ dependencies = [
 requires-python = ">=3.10"
 
 [tool.setuptools]
-packages = ["insta485"]
+packages = ["PastForward"]
 
 [tool.pylint."messages control"]
 disable = ["cyclic-import"]
