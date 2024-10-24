@@ -13,6 +13,7 @@ body {
     display: flex; /* Enables flexbox layout */
     align-items: center; /* Aligns items vertically at the center */
     justify-content: center;
+    padding-bottom: 2vh;
 }
 
 .logo-with-header h1 {
@@ -32,7 +33,7 @@ body {
     box-sizing: border-box;
 }
 
-.create-info {
+.login-info {
     display: flex; /* Enables flexbox layout */
     flex-direction: column;
     align-items: center; /* Aligns items vertically at the center */
@@ -47,7 +48,7 @@ form {
     width: 25vw;
 }
 
-.create-info input {
+.login-info input {
     color: black;
     padding: 2vh; /* Adds padding for better spacing */
     margin-bottom: 1vh; /* Adds margin below each input */
@@ -57,13 +58,13 @@ form {
     width: 100%;
 }
 
-.create-info input::placeholder {
+.login-info input::placeholder {
     text-align: center;
     font-size: 3vh;
     color: black;
 }
 
-.create-info input[type="submit"] {
+.login-info input[type="submit"] {
     background-color: #2E1A57; /* Adds background color */
     color: white; /* White text color for contrast */
     font-size: 5vh;
@@ -79,11 +80,11 @@ form {
     justify-content: center;
 }
 
-.login{
+.signup{
     padding-top: 1vh;
 }
 
-.login a {
+.signup a {
     color: red;
 }
 
@@ -122,33 +123,6 @@ form {
     border-radius: 10px;
     box-shadow: 5px 5px 10px rgba(250, 250, 250);
 }
-
-/* Hide the actual file input */
-#file-upload {
-    display: none;
-}
-
-/* Custom label for the file input */
-.custom-file-label {
-    text-align: center;
-    display: inline-block;
-    padding: 2vh;
-    background-color: white; /* Green background */
-    margin-bottom: 1vh; /* Adds margin below each input */
-    color: black; /* White text */
-    border-radius: 1vh;
-    cursor: pointer;
-    font-size: 3vh;
-    width: 25vw;
-    height: 5.5vh;
-    line-height: 5.5px;
-}
-
-/* Add a hover effect */
-.custom-file-label:hover {
-    background-color: #f0f0f0;;
-}
-
 
 .custom-input{
     font-size: 2vh;

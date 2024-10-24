@@ -17,11 +17,11 @@ body {
 
 .logo-with-header h1 {
     margin-right: 10px; /* Adds some space between the text and the image */
-    font-size: 16vh; /* Adjust font size as needed */
+    font-size: 10vh; /* Adjust font size as needed */
 }
 
 .logo-with-header img {
-    height: 32vh; /* Sets a taller height for the image */
+    height: 20vh; /* Sets a taller height for the image */
     width: auto; /* Maintains aspect ratio */
     object-fit: cover; /* Ensures the image doesn't stretch */
 }

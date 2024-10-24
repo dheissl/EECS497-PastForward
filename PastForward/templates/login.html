@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>PastForward</title>
-    </head>
-    <body>
-        <header>
-            <div class="upper-left">
-                <a href="{{ url_for('show_index') }}">Home</a>
-            </div>
-            <div class="upper-right">
-                <p>login</p>
-            </div>
-        </header>
-        
-        <main>
-            <section class="login-info">
-                <form action="{{ url_for('show_accounts') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
-                    <input type="text" name="username" required/>
-                    <input type="password" name="password" required/>
-                    <input type="submit" value="login"/>
-                    <input type="hidden" name="operation" value="login"/>
-                </form>
-                <p>Don't have an account?<a href="{{ url_for('show_create') }}">Sign up</a></p>
-            </section>
-        </main>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <title>PastForward</title>
+</head>
+<body>
+
+    <div class="text-section">
+        <div class="logo-with-header">
+            <a href="{{ url_for('show_index') }}"><img src="{{ url_for('static', filename='src/logo.png') }}"  alt="PastForward Logo"></a>
+            <h1>PastForward</h1>
+        </div>
+        <section class="login-info">
+            <form action="{{ url_for('show_accounts') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
+                <input class="custom-input" type="text" name="username" placeholder="Enter your username" required/>
+                <input class="custom-input" type="password" name="password" placeholder="Enter your password" required/>
+                <input type="submit" value="login"/>
+                <input type="hidden" name="operation" value="login"/>
+            </form>
+        </section>
+        <div class="signup">
+            <span>Don't have an account?</span>
+            <a href="{{ url_for('show_create') }}">Click Here to Sign Up</a>
+        </div>
+    </div>
+    <div class="photos">
+        <div class="photo-grid">
+            <img src="{{ url_for('static', filename='src/photo1.png') }}" alt="Family photo">
+            <img src="{{ url_for('static', filename='src/photo2.png') }}" alt="Grandfather and grandchild">
+            <img src="{{ url_for('static', filename='src/photo3.png') }}" alt="Family walking with dog">
+            <img src="{{ url_for('static', filename='src/photo4.png') }}" alt="Grandfather and grandchild playing">
+            <img src="{{ url_for('static', filename='src/photo5.png') }}" alt="Mother and daughter">
+        </div>
+        <div class="photo-grid2">
+            <img src="{{ url_for('static', filename='src/photo1.png') }}" alt="Family photo">
+            <img src="{{ url_for('static', filename='src/photo2.png') }}" alt="Grandfather and grandchild">
+            <img src="{{ url_for('static', filename='src/photo3.png') }}" alt="Family walking with dog">
+            <img src="{{ url_for('static', filename='src/photo4.png') }}" alt="Grandfather and grandchild playing">
+            <img src="{{ url_for('static', filename='src/photo5.png') }}" alt="Mother and daughter">
+        </div>
+    </div>
+</body>
 </html>
+

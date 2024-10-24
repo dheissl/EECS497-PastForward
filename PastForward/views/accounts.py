@@ -58,7 +58,6 @@ def show_accounts():
             abort(403)
 
         flask.session['logname'] = username
-
         target_url = flask.request.args.get('target', url_for('show_index'))
         return flask.redirect(target_url)
 
