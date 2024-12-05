@@ -5,9 +5,13 @@ import Post from "./post";
 export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [nextPageUrl, setNextPageUrl] = useState("/api/v1/posts/");
+  const [hasMore, setHasMore] = useState(true);
 
   const fetchMoreData = () => {
-    if (!nextPageUrl) return; // No more posts to fetch
+    if (!nextPageUrl) {
+      setHasMore(false); // No more posts to fetch
+      return;
+    }
 
     fetch(nextPageUrl, { credentials: "same-origin" })
       .then((response) => {
@@ -17,11 +21,11 @@ export default function Feed() {
       .then((data) => {
         setPosts((prevPosts) => [...prevPosts, ...data.results]);
         setNextPageUrl(data.next);
+        if (!data.next) setHasMore(false);
       })
       .catch((error) => console.log(error));
   };
 
-  // Initial data fetch on mount
   useEffect(() => {
     fetch("/api/v1/posts/", { credentials: "same-origin" })
       .then((response) => {
@@ -31,19 +35,33 @@ export default function Feed() {
       .then((data) => {
         setPosts(data.results);
         setNextPageUrl(data.next);
+        if (!data.next) setHasMore(false);
       })
       .catch((error) => console.log(error));
-  }, []); // Empty dependency array means this will only run once on mount
+  }, []);
 
   return (
-    <InfiniteScroll
-      dataLength={posts.length}
-      next={fetchMoreData}
-      hasMore={nextPageUrl !== null} // Fetch more only if there's a next page
+    <div
+      className="container-fluid my-4 overflow-hidden"
+      style={{ padding: 0, margin: 0 }}
     >
-      {posts.map((post) => (
-        <Post key={post.postid} url={post.url} />
-      ))}
-    </InfiniteScroll>
+      <InfiniteScroll
+        dataLength={posts.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={<h4 className="text-center">Loading...</h4>}
+        endMessage={
+          <p className="text-center text-muted mt-4">
+            <b>No more posts to load</b>
+          </p>
+        }
+      >
+        <div className="row g-4 mx-0">
+          {posts.map((post) => (
+            <Post key={post.postid} url={post.url} />
+          ))}
+        </div>
+      </InfiniteScroll>
+    </div>
   );
 }

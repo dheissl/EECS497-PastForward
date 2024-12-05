@@ -7,11 +7,7 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 
-// The parameter of this function is an object with a string called url inside it.
-// url is a prop for the Post component.
 export default function Post({ url }) {
-  /* Display image and post owner of a single post */
-
   const [imgUrl, setImgUrl] = useState("");
   const [owner, setOwner] = useState("");
   const [time, setTime] = useState("");
@@ -26,18 +22,13 @@ export default function Post({ url }) {
   const [postUrl, setPostUrl] = useState("");
 
   useEffect(() => {
-    // Declare a boolean flag that we can use to cancel the API request.
     let ignoreStaleRequest = false;
-
-    // Call REST API to get the post's information
     fetch(url, { credentials: "same-origin" })
       .then((response) => {
         if (!response.ok) throw Error(response.statusText);
         return response.json();
       })
       .then((data) => {
-        // If ignoreStaleRequest was set to true, we want to ignore the results of the
-        // the request. Otherwise, update the state to trigger a new render.
         if (!ignoreStaleRequest) {
           setImgUrl(data.imgUrl);
           setOwner(data.owner);
@@ -55,19 +46,12 @@ export default function Post({ url }) {
       .catch((error) => console.log(error));
 
     return () => {
-      // This is a cleanup function that runs whenever the Post component
-      // unmounts or re-renders. If a Post is about to unmount or re-render, we
-      // should avoid updating state.
       ignoreStaleRequest = true;
     };
   }, [url]);
 
   const likeButton = () => {
-    // Make an API call to like/unlike the post
-    // You will need to implement this API endpoint on your server.
     if (lognameLikesThis) {
-        console.log(likesUrl);
-        console.log('Credentials:', document.cookie);
       fetch(likesUrl, { method: "DELETE", credentials: "same-origin" })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
@@ -133,7 +117,7 @@ export default function Post({ url }) {
 
   const addComment = () => {
     if (text.trim() === "") {
-      return; // Don't add empty comments
+      return;
     }
 
     fetch(`/api/v1/comments/?postid=${postId}`, {
@@ -154,61 +138,90 @@ export default function Post({ url }) {
     setText("");
   };
 
-  const enter = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      addComment();
-    }
-  };
-
-  // Render post image and post owner
   return (
-    <div className="post">
-      <a href={ownerUrl}>
-        <img src={profilePic} alt="Profile" />
-        {owner}
-      </a>
-      <a href={postUrl}>{time}</a>
-      <img src={imgUrl} alt="post_image" onDoubleClick={() => doubleClick()} />
-      <button
-        type="button"
-        data-testid="like-unlike-button"
-        onClick={likeButton}
-      >
-        {lognameLikesThis ? "Unlike" : "Like"}
-      </button>
-      <p>{numLikes === 1 ? "1 like" : `${numLikes} likes`}</p>
-      <div className="comments">
-        {comments.map((comment) => (
-          <div key={comment.commentid}>
-            <a href={`/users/${comment.owner}/`}>{comment.owner}</a>
-            <span data-testid="comment-text">{comment.text}</span>
-            {comment.lognameOwnsThis && (
-              <button
-                type="button"
-                data-testid="delete-comment-button"
-                onClick={() => commentButton(comment.commentid)}
-              >
-                Delete Comment
-              </button>
-            )}
+    <div className="col-12 col-md-6 mb-3">
+      <div className="card h-100 shadow-sm" style={{ maxWidth: "500px", margin: "0 auto" }}>
+        <div className="card-header d-flex align-items-center p-2">
+          <a href={ownerUrl}>
+            <img
+              src={profilePic}
+              alt="Profile"
+              className="me-2"
+              style={{ width: "40px", height: "40px", objectFit: "cover"}}
+            />
+          </a>
+          <div>
+            <a href={ownerUrl} className="text-decoration-none fw-bold" style={{ fontSize: "1.3rem" }}>
+              {owner}
+            </a>
+            <small className="text-muted ms-2" style={{ fontSize: "1.0rem" }}>
+              {time}
+            </small>
           </div>
-        ))}
-        <form
-          data-testid="comment-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            addComment();
-          }}
-        >
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyPress={enter}
-            placeholder="Add a comment..."
-          />
-        </form>
+        </div>
+        <img
+          src={imgUrl}
+          className="card-img-top"
+          alt="Post"
+          style={{ maxHeight: "auto", maxWidth: "auto", objectFit: "contain" }}
+          onDoubleClick={() => likeButton()}
+        />
+        <div className="card-body p-2">
+          <button
+            className={`btn btn-sm ${
+              lognameLikesThis ? "btn-danger" : "btn-success"
+            }`}
+            onClick={likeButton}
+          >
+            {lognameLikesThis ? "Unlike" : "Like"}
+          </button>
+          <p className="mt-1" style={{ fontSize: "1.1rem" }}>
+            <strong>{numLikes}</strong> {numLikes === 1 ? "like" : "likes"}
+          </p>
+          <div className="comments">
+          {comments.map((comment) => (
+            <div key={comment.commentid} className="d-flex align-items-center mb-1">
+              <a
+                href={`/users/${comment.owner}/`}
+                className="me-1 fw-bold text-decoration-none"
+                style={{ fontSize: "1.rem" }}
+              >
+                {comment.owner}
+              </a>
+              <span style={{ fontSize: "1.1rem" }}>{comment.text}</span>
+              {comment.lognameOwnsThis && (
+                <button
+                  className={`btn btn-sm btn-danger ms-2`}
+                  type="button"
+                  data-testid="delete-comment-button"
+                  onClick={() => commentButton(comment.commentid)}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          ))}
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                addComment();
+              }}
+              className="d-flex mt-2"
+            >
+              <input
+                type="text"
+                className="form-control form-control-sm me-2"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Add a comment..."
+              />
+              <button type="submit" className="btn btn-primary btn-sm btn-success">
+                Post
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
