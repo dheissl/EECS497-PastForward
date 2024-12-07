@@ -20,3 +20,4 @@ from PastForward.views.changeposts import handle_posts
 from PastForward.views.auth import show_auth
 from PastForward.views.follows import handle_follows
 from PastForward.views.accounts import show_accounts
+from PastForward.views.newpost import show_newpost

@@ -2,68 +2,148 @@
 <html lang="en">
 <head>
     <title>PastForward</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/help-button.css') }}"> <!-- Help button styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+        rel="stylesheet"
 </head>
-<body>
-    <header>
-        <div class="upper-left">
-            <a href="{{ url_for('show_index') }}">Home</a>
+<body class="bg-light text-dark">
+    <header class="header-container d-flex justify-content-between align-items-center p-3 bg-purple text-white">
+        <div class="logo-with-header d-flex align-items-center">
+            <img src="{{ url_for('static', filename='src/logo.png') }}" alt="PastForward Logo" style="height: 40px;">
+            <h1 class="logo-title ms-2">PastForward</h1>
         </div>
-        <div class="upper-right">
-            <a href="{{ url_for('show_explore') }}">explore</a>
-            <a href="{{ url_for('show_user', username=logname) }}">{{ logname }}</a>
+        <h1 id="page-title" class="page-title">Memory Feed</h1>
+        <div class="help-icon position-relative">
+            <div id="helpButton" class="rounded-circle bg-light text-dark d-flex justify-content-center align-items-center">
+                ?
+            </div>
         </div>
-    </header>
+      </header>
+    
+      <!-- Popup Modal -->
+      <div id="helpPopup" class="popup-modal">
+        <div class="popup-content">
+            <h2>Helpful Information</h2>
+            <p>Welcome to the User page! Here you can explore your profile and posts. This is also where you create new posts through the "New Post" button! You can also edit your profile or logout using the provided buttons.</p>
+            <button id="closePopup" class="btn btn-danger mt-3">Close</button>
+        </div>
+      </div>
+    
+      <script>
+        // Elements
+        const helpButton = document.getElementById("helpButton");
+        const helpPopup = document.getElementById("helpPopup");
+        const closePopup = document.getElementById("closePopup");
+    
+        // Show Popup
+        helpButton.addEventListener("click", () => {
+            helpPopup.style.display = "flex";
+        });
+    
+        // Hide Popup
+        closePopup.addEventListener("click", () => {
+            helpPopup.style.display = "none";
+        });
+    
+        // Close Popup on Outside Click
+        window.addEventListener("click", (event) => {
+            if (event.target === helpPopup) {
+                helpPopup.style.display = "none";
+            }
+        });
+      </script>
+    
+          
+      <footer class="fixed-bottom footer-bar bg-light">
+          <div class="container d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('show_index') }}" class="footer-link text-center">
+              <i class="bi bi-geo-alt"></i>
+              <span>Memory Feed</span>
+            </a>
+            <a href="{{ url_for('show_explore') }}" class="footer-link text-center">
+              <i class="bi bi-people"></i>
+              <span>Families</span>
+            </a>
+            <a href="{{ url_for('show_user', username=logname) }}" class="footer-link text-center">
+              <i class="bi bi-person"></i>
+              <span>Profile</span>
+            </a>
+          </div>
+      </footer>
 
-    <main>
+    <!-- Main Content -->
+    <main class="container my-5">
         {% for user in users %}
-        <section class="profile-info">
-            <h1>{{ user.username }}</h1>
-            {% if logname == user.username %}
-                <div><a href="{{ url_for('show_edit') }}">Edit profile</a></div>
-                <form action="{{ url_for('show_logout') }}" method="post" enctype="multipart/form-data">
-                <input type="submit" name="logout" value="Logout"/>
-                </form>
-            {% else %}
-                {% if user.logname_follows %}
-                <div>following
-                <form action="{{ url_for('handle_follows') }}?target={{ url_for('show_user', username=username) }}" method="post" enctype="multipart/form-data">
-                  <input type="submit" name="unfollow" value="unfollow"/>
-                  <input type="hidden" name="username" value="user.username"/>
-                  <input type="hidden" name="operation" value="unfollow"/>
-                </form>
-                </div>
+        <section class="profile-info mb-4">
+            <div class="text-center">
+                <h2 class="mb-3">{{ user.fullname }}</h2>
+                <img
+                    src="{{ url_for('uploaded_file', filename=user.filename) }}"
+                    alt="{{ logname }}'s profile image"
+                    class="me-2 rounded-circle"
+                    style="width: 10rem; height: 10rem; object-fit: cover;"
+                />
+              
+                <p class="text-dark fw-bold">{{ user.username }}</p>
+                {% if logname == user.username %}
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <a href="{{ url_for('show_edit') }}" class="btn btn-primary btn-sm">Edit Profile</a>
+                        <form action="{{ url_for('show_logout') }}" method="post" class="m-0">
+                            <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+                        </form>
+                    </div>
+                
                 {% else %}
-                <div>not following
-                <form action="{{ url_for('handle_follows') }}?target={{ url_for('show_user', username=username) }}" method="post" enctype="multipart/form-data">
-                  <input type="submit" name="follow" value="follow"/>
-                  <input type="hidden" name="username" value="user.username"/>
-                  <input type="hidden" name="operation" value="follow"/>
-                </form>
-                </div>
+                    {% if user.logname_follows %}
+                    <form action="{{ url_for('handle_follows') }}?target={{ url_for('show_user', username=username) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm">Unfollow</button>
+                    </form>
+                    {% else %}
+                    <form action="{{ url_for('handle_follows') }}?target={{ url_for('show_user', username=username) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-primary btn-sm">Follow</button>
+                    </form>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-            <p>{{ user.total_posts }} posts</p>
-            <p><a href="{{ url_for('show_followers', username=user.username) }}">{{ user.total_followers }} follower{% if user.total_followers != 1 %}s{% endif %}</a></p>
-            <p><a href="{{ url_for('show_following', username=user.username) }}">{{ user.total_following }} following</a></p>
-            <p>{{ user.fullname }}</p>
-            {% if logname == user.username %}
-            <form action="{{ url_for('handle_posts') }}?target={{ url_for('show_user', username=username) }}" method="post" enctype="multipart/form-data">
-              <input type="file" name="file" accept="image/*" required/>
-              <input type="submit" name="create_post" value="upload new post"/>
-              <input type="hidden" name="operation" value="create"/>
-            </form>
-            {% endif %}
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <p class="mx-3 text-dark fw-bold">
+                    <strong>{{ user.total_posts }}</strong>
+                    {{ 'Post' if user.total_posts == 1 else 'Posts' }}
+                </p>
+            </div>
         </section>
 
-        <section class="post-thumbnails">
+        <section class="post-thumbnails text-center">
             {% if 0 == user.total_posts %}
-            <p>No posts yet.</p>
+            <p class="text-muted">No posts yet.</p>
             {% endif %}
-            {% for post in user.posts %}
-            <a href="{{ url_for('show_posts', postid=post.postid) }}">
-                <img src="{{ url_for('uploaded_file', filename=post.filename) }}" alt="Post {{ post.postid }}">
-            </a>
-            {% endfor %}
+            <div class="row row-cols-2 row-cols-md-4 g-3">
+                {% if logname == user.username %}
+                <div class="col add-post">
+                    <a href="{{ url_for('show_newpost') }}" class="d-flex align-items-center justify-content-center">
+                        <span class="plus-icon">New Post</span>
+                    </a>
+                </div>
+                {% endif %}
+                {% for post in user.posts %}
+                    {% if post.scheduled_date is not none and post.scheduled_date <= current_date or post.scheduled_date is none or logname == user.username%}
+                        <div class="col">
+                            <a href="{{ url_for('show_posts', postid=post.postid) }}" class="text-decoration-none">
+                                <img src="{{ url_for('uploaded_file', filename=post.filename) }}" alt="Post {{ post.postid }}" class="img-fluid rounded">
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </section>
         {% endfor %}
     </main>

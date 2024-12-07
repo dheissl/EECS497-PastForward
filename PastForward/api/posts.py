@@ -61,40 +61,68 @@ def get_posts():
 
     connection = PastForward.model.get_db()
     cur = connection.execute(
-        "SELECT p.filename AS pic, p.owner AS owner, p.postid AS postid,"
-        " p.created AS timestamp, u.filename AS profile_pic "
-        "FROM posts AS p "
-        "JOIN following AS f ON p.owner = f.username2 "
-        "JOIN users AS u ON p.owner = u.username "
-        "WHERE f.username1 = ? "
-        "AND p.postid > ? "
-        "UNION "
-        "SELECT p.filename AS pic, p.owner AS owner, p.postid AS postid,"
-        " p.created AS timestamp, u.filename AS profile_pic "
-        "FROM posts AS p "
-        "JOIN users AS u ON p.owner = u.username "
-        "WHERE p.owner = ? "
-        "AND p.postid > ?",
+    """
+    SELECT p.filename AS pic, 
+           p.owner AS owner, 
+           p.postid AS postid,
+           p.created AS timestamp, 
+           p.scheduled_date AS scheduled_date, 
+           p.description AS description, 
+           u.filename AS profile_pic
+    FROM posts AS p
+    JOIN following AS f ON p.owner = f.username2
+    JOIN users AS u ON p.owner = u.username
+    WHERE f.username1 = ?
+      AND p.postid > ?
+      AND (p.scheduled_date IS NULL OR p.scheduled_date <= DATE('now'))
+    UNION
+    SELECT p.filename AS pic, 
+           p.owner AS owner, 
+           p.postid AS postid,
+           p.created AS timestamp, 
+           p.scheduled_date AS scheduled_date, 
+           p.description AS description, 
+           u.filename AS profile_pic
+    FROM posts AS p
+    JOIN users AS u ON p.owner = u.username
+    WHERE p.owner = ?
+      AND p.postid > ?
+      AND (p.scheduled_date IS NULL OR p.scheduled_date <= DATE('now'))
+    """,
         (username, postid_lte, username, postid_lte)
     )
     newposts = cur.fetchall()
 
     cur = connection.execute(
-        "SELECT p.filename AS pic, p.owner AS owner, p.postid AS postid,"
-        " p.created AS timestamp, u.filename AS profile_pic "
-        "FROM posts AS p "
-        "JOIN following AS f ON p.owner = f.username2 "
-        "JOIN users AS u ON p.owner = u.username "
-        "WHERE f.username1 = ? "
-        "UNION "
-        "SELECT p.filename AS pic, p.owner AS owner, p.postid AS postid,"
-        " p.created AS timestamp, u.filename AS profile_pic "
-        "FROM posts AS p "
-        "JOIN users AS u ON p.owner = u.username "
-        "WHERE p.owner = ? "
-        "ORDER BY p.postid DESC"
-        " LIMIT ? "
-        "OFFSET ?",
+    """
+    SELECT p.filename AS pic, 
+           p.owner AS owner, 
+           p.postid AS postid,
+           p.created AS timestamp, 
+           p.scheduled_date AS scheduled_date, 
+           p.description AS description, 
+           u.filename AS profile_pic
+    FROM posts AS p
+    JOIN following AS f ON p.owner = f.username2
+    JOIN users AS u ON p.owner = u.username
+    WHERE f.username1 = ?
+      AND (p.scheduled_date IS NULL OR p.scheduled_date <= DATE('now'))
+    UNION
+    SELECT p.filename AS pic, 
+           p.owner AS owner, 
+           p.postid AS postid,
+           p.created AS timestamp, 
+           p.scheduled_date AS scheduled_date, 
+           p.description AS description, 
+           u.filename AS profile_pic
+    FROM posts AS p
+    JOIN users AS u ON p.owner = u.username
+    WHERE p.owner = ?
+      AND (p.scheduled_date IS NULL OR p.scheduled_date <= DATE('now'))
+    ORDER BY p.postid DESC
+    LIMIT ?
+    OFFSET ?
+    """,
         (username, username, size, (page*size)+len(newposts))
     )
     posts = cur.fetchall()
@@ -117,6 +145,7 @@ def get_posts():
         result["results"].append({"postid": posts[i]["postid"],
                                   "url": f"/api/v1/posts/"
                                   + f"{posts[i]['postid']}/"})
+    print(result)
     return result
 
 

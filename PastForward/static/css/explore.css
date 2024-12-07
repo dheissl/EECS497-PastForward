@@ -1,0 +1,165 @@
+body {
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at right, #FFFFFF 0%, #A073B0 0%, #2E1A57 99%); /* Purple to white gradient */
+    color: white;
+}
+
+/* Header Container */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #6a0dad; /* Purple background for header */
+    color: white;
+    position: relative; /* Ensures positioning for child elements */
+}
+  
+  /* Logo with Header */
+.logo-with-header {
+    display: flex;
+    align-items: center; /* Centers logo and title vertically */
+}
+  
+.logo-with-header img {
+    height: 50px; /* Adjust logo size */
+    width: auto;
+    margin-right: 10px; /* Space between logo and title */
+}
+  
+.logo-with-header .logo-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
+  /* Page Title */
+.page-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Centers the title horizontally */
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+  
+/* Footer Bar Styling */
+.footer-bar {
+    height: 60px;
+    border-top: 2px solid black; /* Purple border at the top */
+}
+  
+.footer-link {
+    color: #6a0dad; /* Purple text */
+    text-decoration: none;
+    font-size: 1.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+  
+.footer-link i {
+    font-size: 1.7rem; /* Larger icon size */
+    color: #6a0dad; /* Purple icon */
+}
+  
+.footer-link:hover {
+    color: #4b0082; /* Darker purple on hover */
+}
+  
+.footer-link span {
+    font-size: 0.8rem; /* Slightly smaller text below the icon */
+}
+
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Purple Theme */
+.bg-purple {
+    background-color: #6a0dad;
+}
+  
+  .rounded-circle {
+    object-fit: cover;
+}
+
+h1[class="text-center mb-4"]{
+    color: black;
+    font-size: 3.0rem !important; /* Ensure all text elements adhere to minimum size */
+    font-weight: bold;
+}
+
+main p,
+main a,
+main button {
+  color: black;
+  font-size: 1.1rem !important; /* Ensure all text elements adhere to minimum size */
+  font-weight: bold;
+}
+
+main .btn, .btn-primary{
+    font-size: 1.1rem !important; /* Ensure all text elements adhere to minimum size */
+    font-weight: bold;
+}
+
+/* Center Tabs and Enlarge */
+.nav-tabs {
+    background-color: #6a0dad;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.nav-tabs .nav-link {
+    color: white;
+    font-size: 1.2rem;
+    border: none;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Tab Content Styling */
+.tab-content {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+/* Headers in Tab Content */
+.tab-content h2 {
+    font-size: 1.5rem;
+    color: black;
+}
+
+/* Card Styling */
+.card {
+    border: 2px solid #6a0dad;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 150px;
+    border-bottom: 2px solid #6a0dad;
+}
+

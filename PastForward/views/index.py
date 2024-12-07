@@ -22,18 +22,32 @@ def show_index():
     followerurl = url_for('show_followers', username=logname)
     # Query database
     cur = connection.execute(
-        "SELECT p.filename AS pic, p.owner AS owner, p.postid AS postid,"
-        " p.created AS timestamp, u.filename AS profile_pic "
-        "FROM posts AS p "
-        "JOIN following AS f ON p.owner = f.username2 "
-        "JOIN users AS u ON p.owner = u.username "
-        "WHERE f.username1 = ? "
-        "UNION "
-        "SELECT p.filename AS pic, p.owner AS owner, p.postid AS postid,"
-        " p.created AS timestamp, u.filename AS profile_pic "
-        "FROM posts AS p "
-        "JOIN users AS u ON p.owner = u.username "
-        "WHERE p.owner = ?",
+    """
+    SELECT p.filename AS pic, 
+           p.owner AS owner, 
+           p.postid AS postid,
+           p.created AS timestamp, 
+           p.scheduled_date AS scheduled_date,
+           p.description AS description,
+           u.filename AS profile_pic
+    FROM posts AS p
+    JOIN following AS f ON p.owner = f.username2
+    JOIN users AS u ON p.owner = u.username
+    WHERE f.username1 = ?
+      AND (p.scheduled_date IS NULL OR p.scheduled_date <= DATE('now'))
+    UNION
+    SELECT p.filename AS pic, 
+           p.owner AS owner, 
+           p.postid AS postid,
+           p.created AS timestamp, 
+           p.scheduled_date AS scheduled_date,
+           p.description AS description,
+           u.filename AS profile_pic
+    FROM posts AS p
+    JOIN users AS u ON p.owner = u.username
+    WHERE p.owner = ?
+      AND (p.scheduled_date IS NULL OR p.scheduled_date <= DATE('now'))
+    """,
         (logname, logname,)
     )
     posts = cur.fetchall()
@@ -52,6 +66,7 @@ def show_index():
     for post in posts:
         time = arrow.get(post["timestamp"])
         post["timestamp"] = time.humanize()
+        post["description"] = post.get("description", "")
 
         post["likes"] = 0
         post["liked"] = False

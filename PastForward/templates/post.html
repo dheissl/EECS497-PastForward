@@ -1,84 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>PastForward</title>
-</head>
-<body>
-    <header>
-        <div class="upper-left">
-            <a href="{{ url_for('show_index') }}">Home</a>
-        </div>
-        <div class="upper-right">
-            <a href="{{ url_for('show_explore') }}">Explore</a>
-            <a href="{{ user_url }}">{{ logname }}</a>
-        </div>
-    </header>
+    <head>
+        <title>PastForward</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+            rel="stylesheet"
+    </head>
+    <body class="bg-light text-dark">
+        <header class="header-container">
+            <div class="logo-with-header">
+                <img src="{{ url_for('static', filename='src/logo.png') }}" alt="PastForward Logo">
+                <h1 class="logo-title">PastForward</h1>
+            </div>
+            <h1 id="page-title" class="page-title">Memory Feed</h1>
+        </header>
+          
+        <footer class="fixed-bottom footer-bar bg-light">
+            <div class="container d-flex justify-content-between align-items-center">
+              <a href="{{ url_for('show_index') }}" class="footer-link text-center">
+                <i class="bi bi-geo-alt"></i>
+                <span>Memory Feed</span>
+              </a>
+              <a href="{{ url_for('show_explore') }}" class="footer-link text-center">
+                <i class="bi bi-people"></i>
+                <span>Families</span>
+              </a>
+              <a href="{{ url_for('show_user', username=logname) }}" class="footer-link text-center">
+                <i class="bi bi-person"></i>
+                <span>Profile</span>
+              </a>
+            </div>
+        </footer>
     
-    <main>
-        {% for post in posts %}
-        <article class="post">
-            <div class="post-header">
-                <a href="{{ url_for('show_user', username=post.owner) }}">
-                    <img src="{{ url_for('uploaded_file', filename=post.profile_pic) }}" alt="Profile Picture">
-                    {{post.owner}}
-                </a>
-                <span class="timestamp">
-                    <a href="{{ url_for('show_posts', postid=post.postid) }}">{{post.timestamp}}</a>
-                </span>
-            </div>
-            <div class="post-content">
-                <img src="{{ url_for('uploaded_file', filename=post.pic) }}" alt="Post Image">
-            </div>
-            <div class="post-footer">
-                <span class="likes">{{post.likes}} like{% if post.likes != 1 %}s{% endif %}</span>
-                {% if post.liked == False %}
-                    <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_posts', postid=postid) }}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="operation" value="like"/>
-                        <input type="hidden" name="postid" value="{{ postid }}"/>
-                        <input type="submit" name="like" value="like"/>
-                    </form>
-                {% else %}
-                    <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_posts', postid=postid) }}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="operation" value="unlike"/>
-                        <input type="hidden" name="postid" value="{{ postid }}"/>
-                        <input type="submit" name="unlike" value="unlike"/>
-                    </form>
-                {% endif %}
-                <div class="comments">
-                    {% for comment in post.comments %}
-                    <div class="comment">
-                        <span class="comment-owner">
-                            <a href="{{ url_for('show_user', username=comment.owner) }}">{{ comment.owner }}</a>
-                        </span>
-                        <span class="comment-text">
-                            {{ comment.text }}
-                        </span>
-                        {% if comment.owner == logname %}
-                            <form action="{{ url_for('handle_comments') }}?target={{url_for('show_posts', postid=post.postid) }}" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="operation" value="delete"/>
-                                <input type="hidden" name="commentid" value="{{comment.commentid}}"/>
-                                <input type="submit" name="uncomment" value="delete"/>
-                            </form>
+    <main class="container my-5">
+        <div class="row row-cols-1 g-4">
+            {% for post in posts %}
+            <div class="col">
+                <article class="post card shadow-sm">
+                    <!-- Post Header -->
+                    <div class="post-header card-header d-flex justify-content-between align-items-center position-relative">
+                        <!-- Profile Info -->
+                        <a href="{{ url_for('show_user', username=post.owner) }}" class="d-flex align-items-center text-decoration-none">
+                            <img src="{{ url_for('uploaded_file', filename=post.profile_pic) }}" alt="Profile Picture" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                            <span class="fw-bold text-purple">{{ post.owner }}</span>
+                        </a>
+                    
+                        <!-- Centered Delete Button -->
+                        {% if post.owner == logname %}
+                        <form action="{{ url_for('handle_posts') }}?target={{ url_for('show_user', username=logname) }}" method="post" class="position-absolute top-50 start-50 translate-middle">
+                            <input type="hidden" name="operation" value="delete" />
+                            <input type="hidden" name="postid" value="{{ post.postid }}" />
+                            <button type="submit" class="btn btn-danger">
+                                Delete this Post
+                            </button>
+                        </form>
                         {% endif %}
+                    
+                        <!-- Timestamp -->
+                        <span class="timestamp ms-auto">
+                            <a href="{{ url_for('show_posts', postid=post.postid) }}" class="text-dark text-decoration-none">{{ post.timestamp }}</a>
+                        </span>
                     </div>
-                    {% endfor %}
-                    <form action="{{ url_for('handle_comments') }}?target={{url_for('show_posts', postid=post.postid) }}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="operation" value="create"/>
-                        <input type="hidden" name="postid" value="{{post.postid}}"/>
-                        <input type="text" name="text" required/>
-                        <input type="submit" name="comment" value="comment"/>
-                    </form>
-                </div>
+                              
+
+                    <!-- Post Content -->
+                    <div class="post-content card-body">
+                        <div class="image-container">
+                            <img src="{{ url_for('uploaded_file', filename=post.pic) }}" alt="Post Image">
+                        </div>
+                        <p className="text-dark">
+                            {% if post.description != None %}{{post.description}}{% endif %}
+                        </p>
+                    </div>
+                    
+
+                    <!-- Post Footer -->
+                    <div class="post-footer card-footer">
+                        <span class="likes fw-bold text-dark">{{ post.likes }} like{% if post.likes != 1 %}s{% endif %}</span>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            {% if post.liked == False %}
+                            <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_posts', postid=postid) }}" method="post" class="me-3">
+                                <input type="hidden" name="operation" value="like">
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Like</button>
+                            </form>
+                            {% else %}
+                            <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_posts', postid=postid) }}" method="post" class="me-3">
+                                <input type="hidden" name="operation" value="unlike">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Unlike</button>
+                            </form>
+                            {% endif %}
+                        </div>
+
+                        <!-- Comments -->
+                        <div class="comments mt-3">
+                            {% for comment in post.comments %}
+                            <div class="comment mb-2">
+                                <span class="comment-owner fw-bold">
+                                    <a href="{{ url_for('show_user', username=comment.owner) }}" class="text-purple text-decoration-none">{{ comment.owner }}</a>
+                                </span>
+                                <span class="comment-text ms-2">{{ comment.text }}</span>
+                                {% if comment.owner == logname %}
+                                <form action="{{ url_for('handle_comments') }}?target={{url_for('show_posts', postid=post.postid) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="operation" value="delete">
+                                    <button type="submit" class="btn btn-link text-danger p-0">Delete</button>
+                                </form>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            <form action="{{ url_for('handle_comments') }}?target={{url_for('show_posts', postid=post.postid) }}" method="post" class="mt-2">
+                                <input type="hidden" name="operation" value="create">
+                                <div class="input-group">
+                                    <input type="text" name="text" class="form-control" placeholder="Add a comment..." required>
+                                    <button type="submit" class="btn btn-primary">Comment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </article>
             </div>
-                {% if post.owner == logname %}
-                    <form action="{{url_for('handle_posts')}}?target={{ url_for('show_user', username=logname) }}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="operation" value="delete"/>
-                        <input type="hidden" name="postid" value="postid"/>
-                        <input type="submit" name="delete" value="delete this post"/>
-                    </form>
-                {% endif %}
-        </article>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </main>
 </body>
 </html>

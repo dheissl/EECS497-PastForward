@@ -22,7 +22,7 @@ def show_posts(postid):
     usrurl = url_for('show_user', username=logname)
     # Query database
     cur = connection.execute(
-        "SELECT p.filename AS pic, p.owner AS owner, p.postid AS postid,"
+        "SELECT p.description AS description, p.filename AS pic, p.owner AS owner, p.postid AS postid,"
         " p.created AS timestamp, u.filename AS profile_pic "
         "FROM posts AS p "
         "JOIN users AS u ON p.owner = u.username "

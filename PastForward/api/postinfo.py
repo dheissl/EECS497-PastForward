@@ -40,8 +40,10 @@ def get_post(postid):
     )
     allposts = cur.fetchall()
 
-    if postid > len(allposts):
-        return flask.Response('Not Found', 404)
+    #TODO: Change postid logic when deleting
+    #if postid > len(allposts):
+    #    print(len(allposts))
+    #   return flask.Response('Not Found', 404)
 
     context = {}
     comments = create_comments(postid, logname)
@@ -51,15 +53,17 @@ def get_post(postid):
     cur = connection.execute(
         """SELECT
         created AS post_created_time,
-        filename AS image_url
+        filename AS image_url,
+        description
     FROM
         posts
     WHERE
         postid = ?""", (postid,)
     )
-    timenimg = cur.fetchall()
-    context['created'] = timenimg[0]['post_created_time']
-    context['imgUrl'] = f"/uploads/{timenimg[0]['image_url']}"
+    timenimgndesc = cur.fetchall()
+    context['created'] = timenimgndesc[0]['post_created_time']
+    context['imgUrl'] = f"/uploads/{timenimgndesc[0]['image_url']}"
+    context['description'] = timenimgndesc[0]['description']
 
     cur = connection.execute(
         """SELECT

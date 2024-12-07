@@ -16,6 +16,8 @@ CREATE TABLE posts (
   filename VARCHAR(64),
   owner VARCHAR(20) NOT NULL,
   created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  scheduled_date DATE,
+  description TEXT,
   FOREIGN KEY (owner) REFERENCES users(username) ON DELETE CASCADE
 );
 

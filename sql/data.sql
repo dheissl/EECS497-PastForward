@@ -10,12 +10,12 @@ VALUES
   ('Boblol', 'Bob Dude', 'bob@umich.edu', 'Bob.jpg', 'sha512$a45ffdcc71884853a2cba9e6bc55e812$c739cef1aec45c6e345c8463136dc1ae2fe19963106cf748baf87c7102937aa96928aa1db7fe1d8da6bd343428ff3167f4500c8a61095fb771957b4367868fb8');
 
 -- posts table
-INSERT INTO posts(filename, owner)
+INSERT INTO posts(filename, owner, description)
 VALUES
-  ('jerrybird.jpg', 'jerrylol'),
-  ('sonschool.jpg', 'sonj'),
-  ('jerryforest.jpg', 'sherry'),
-  ('BobDaughter.jpg', 'Boblol');
+  ('jerrybird.jpg', 'jerrylol', 'I remember the first time I saw a bird; I was just a boy, maybe five or six, and I’d never ventured far from our little stone house nestled in the valley. One morning, as the sun peeked over the hills, a flash of red and gold darted across my vision, landing on the fence post. I froze, mesmerized by the tiny creature with feathers gleaming like embers in the light, its head tilting inquisitively as if it were just as curious about me. It let out a high, melodic whistle, and for a moment, the whole world seemed to pause in harmony with that sound. To this day, I can’t hear a bird sing without being pulled back to that instant of wonder, standing barefoot in the dew-soaked grass, watching something so ordinary and yet so miraculous.'),
+  ('sonschool.jpg', 'sonj', 'The moment I stepped onto the University of Michigan campus, it felt like stepping into a world I’d only dreamed about. The iconic maize and blue banners fluttered in the breeze, and the hum of student life buzzed around me, equal parts thrilling and intimidating. My sneakers squeaked against the brick paths as I passed towering buildings that seemed to hold centuries of knowledge, and I felt a mix of awe and determination. Standing beneath the shadow of the Big House, I took a deep breath, realizing this was the first step of a journey that would shape the rest of my life.'),
+  ('jerryforest.jpg', 'sherry', 'I had never seen anything so grand in my life. The towering mountains stretched endlessly, their peaks kissed by the clouds, and the sunlight painted them in hues of gold and blue. Standing there, the crisp air filling my lungs, I felt both insignificant and profoundly connected to something greater. Tears welled in my eyes—not out of sadness, but from the overwhelming beauty that reminded me how vast and wondrous the world truly is.'),
+  ('BobDaughter.jpg', 'Boblol', 'Love life.');
 
 -- following table
 INSERT INTO following(username1, username2)

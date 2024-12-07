@@ -10,7 +10,7 @@ import flask
 import PastForward
 from flask import url_for, request, abort, redirect
 import os
-
+from datetime import datetime
 
 @PastForward.app.route('/posts/', methods=['POST'])
 def handle_posts():
@@ -23,7 +23,9 @@ def handle_posts():
     operation = request.form.get('operation')
     postid = request.form.get('postid')
     if operation == 'create':
-        image_file = request.files['file']
+        image_file = request.files['image']
+        scheduled_date = request.form.get('schedule') 
+        description = request.form['description']
     # Get the current URL or use '/' as the default
     target_url = request.args.get('target', f'/users/{logname}/')
     if operation == 'create':
@@ -49,11 +51,23 @@ def handle_posts():
         path = PastForward.app.config["UPLOAD_FOLDER"]/uuid_basename
         image_file.save(path)
 
-        # Create a new post
+        # Parse and validate the scheduled_date if provided
+        if scheduled_date:
+            try:
+                # Ensure the date is in the correct format
+                scheduled_date_parsed = datetime.strptime(scheduled_date, "%Y-%m-%d").date()
+            except ValueError:
+                abort(400, 'Invalid date format. Please use YYYY-MM-DD.')
+        else:
+            scheduled_date_parsed = None
+
+        # Insert the new post into the database
         connection.execute(
-            "INSERT INTO posts(filename, owner) VALUES "
-            "(?, ?)",
-            (uuid_basename, logname,)
+            """
+            INSERT INTO posts (filename, owner, scheduled_date, description)
+            VALUES (?, ?, ?, ?)
+            """,
+            (uuid_basename, logname, scheduled_date_parsed, description)
         )
     elif operation == 'delete':
         # Check if the user owns the post
@@ -73,6 +87,7 @@ def handle_posts():
         if os.path.exists(filena):
             os.remove(filena)
 
+        #TODO: Change postid logic when deleting
         # Delete the post from the data store
             connection.execute(
                 "DELETE FROM posts "

@@ -1,0 +1,144 @@
+/* Set a purple background for the entire page */
+body {
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at right, #FFFFFF 0%, #A073B0 0%, #2E1A57 99%); /* Purple to white gradient */
+    color: white;
+}
+
+/* Header Container */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #6a0dad; /* Purple background for header */
+    color: white;
+    position: relative; /* Ensures positioning for child elements */
+}
+  
+  /* Logo with Header */
+.logo-with-header {
+    display: flex;
+    align-items: center; /* Centers logo and title vertically */
+}
+  
+.logo-with-header img {
+    height: 50px; /* Adjust logo size */
+    width: auto;
+    margin-right: 10px; /* Space between logo and title */
+}
+  
+.logo-with-header .logo-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
+  /* Page Title */
+.page-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Centers the title horizontally */
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+  
+/* Footer Bar Styling */
+.footer-bar {
+    height: 60px;
+    border-top: 2px solid black; /* Purple border at the top */
+}
+  
+.footer-link {
+    color: #6a0dad; /* Purple text */
+    text-decoration: none;
+    font-size: 1.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+  
+.footer-link i {
+    font-size: 1.7rem; /* Larger icon size */
+    color: #6a0dad; /* Purple icon */
+}
+  
+.footer-link:hover {
+    color: #4b0082; /* Darker purple on hover */
+}
+  
+.footer-link span {
+    font-size: 0.8rem; /* Slightly smaller text below the icon */
+}
+
+
+
+main p,
+main a,
+main button {
+  font-size: 1.1rem !important; /* Ensure all text elements adhere to minimum size */
+}
+
+main h2 {
+  color: black;
+  font-size: 3rem; /* Larger font size for headings */
+  font-weight: bold;
+}
+
+main a {
+  text-decoration: none;
+  color: #6a0dad;
+}
+
+main a:hover {
+  text-decoration: underline;
+}
+
+main .btn {
+  font-size: 1.1rem; /* Minimum font size for buttons */
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+  
+/* Styling for the "+" Button */
+.add-post .col{
+    height: 100%; /* Match the height of the post thumbnail */
+    aspect-ratio: 1; /* Ensures the button is square like the posts */
+}
+
+.add-post a {
+    display: block;
+    height: 100%; /* Ensure the link fills the container */
+    background-color: lightgrey; /* Transparent background */
+    border: 4px solid black; /* Purple border to match the theme */
+    border-radius: 10px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+
+}
+
+.add-post a:hover {
+    background-color: #198754; /* Purple background on hover */
+    color: black;
+    border-color: black;
+}
+
+.plus-icon {
+    font-size: 5rem; /* Adjust size to match the post thumbnails */
+    color: black; /* Purple "+" sign */
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+}
+
+.col img {
+    border: 4px solid black; /* Purple border to match the theme */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.col img:hover{
+    border: 4px solid green; /* Purple border to match the theme */
+    border-radius: 10px; /* Rounded corners */
+}

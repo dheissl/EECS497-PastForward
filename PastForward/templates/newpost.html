@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PastForward</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/newpost.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+        rel="stylesheet"
+</head>
+<body class="bg-light text-dark">
+    <header class="header-container">
+        <div class="logo-with-header">
+            <img src="{{ url_for('static', filename='src/logo.png') }}" alt="PastForward Logo">
+            <h1 class="logo-title">PastForward</h1>
+        </div>
+        <h1 id="page-title" class="page-title">Memory Feed</h1>
+    </header>
+      
+    <footer class="fixed-bottom footer-bar bg-light">
+        <div class="container d-flex justify-content-between align-items-center">
+          <a href="{{ url_for('show_index') }}" class="footer-link text-center">
+            <i class="bi bi-geo-alt"></i>
+            <span>Memory Feed</span>
+          </a>
+          <a href="{{ url_for('show_explore') }}" class="footer-link text-center">
+            <i class="bi bi-people"></i>
+            <span>Families</span>
+          </a>
+          <a href="{{ url_for('show_user', username=logname) }}" class="footer-link text-center">
+            <i class="bi bi-person"></i>
+            <span>Profile</span>
+          </a>
+        </div>
+    </footer>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <h2 class="text-center"><strong>Share a Memory</strong></h2>
+        <p class="text-center">Consider sharing a memory about where you were during the moon landing!</p>
+        
+        <form action="{{ url_for('handle_posts') }}?target={{ url_for('show_user', username=username) }}" method="post" enctype="multipart/form-data" class="p-4 bg-white shadow-sm rounded">
+            <!-- Description Field -->
+            <div class="mb-4">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Click here to write about your memory..."></textarea>
+            </div>
+            <!-- Add Image Field -->
+            <div class="mb-4">
+                <label for="image" class="form-label">Add Image</label>
+                <div id="image-preview-container" class="image-upload-container position-relative border border-secondary rounded d-flex justify-content-center align-items-center" style="height: 200px;">
+                    <!-- Image Preview -->
+                    <img id="image-preview" src="#" alt="Preview" class="position-absolute d-none" style="max-height: 100%; max-width: 100%; object-fit: contain; z-index: 1;" />
+            
+                    <!-- Clickable Upload Area -->
+                    <label for="image" id="image-label" class="position-absolute d-flex flex-column align-items-center text-muted" style="z-index: 2; cursor: pointer;">
+                        <i class="bi bi-upload" style="font-size: 2rem;"></i>
+                        <p class="mt-2">Click here to add an image</p>
+                    </label>
+            
+                    <!-- Hidden File Input -->
+                    <input type="file" class="form-control d-none" id="image" name="image" accept="image/*">
+                </div>
+            </div>
+            
+
+            <!-- Schedule Date and Time -->
+            <div class="mb-4">
+                <label for="schedule" class="form-label">Schedule to Post Later (Optional)</label>
+                <input type="date" class="form-control" id="schedule" name="schedule" min="{{ current_date }}">
+            </div>
+            <!-- Submit Button -->
+            <div class="text-center">
+                <input type="submit" name="create_post" class="btn btn-primary px-5" value="Share Memory"/>
+                <input type="hidden" name="operation" value="create"/>
+            </div>
+        </form>
+    </main>
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            const file = event.target.files[0]; // Get the selected file
+            const preview = document.getElementById('image-preview'); // Image preview element
+            const label = document.getElementById('image-label'); // Upload label
+    
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result; // Set the preview source
+                    preview.classList.remove('d-none'); // Show the preview
+                    label.classList.add('d-none'); // Hide the label
+                };
+                reader.readAsDataURL(file); // Read the file as a data URL
+            } else {
+                preview.src = '#';
+                preview.classList.add('d-none'); // Hide the preview if no file is selected
+                label.classList.remove('d-none'); // Show the label
+            }
+        });
+    </script>
+    
+</body>

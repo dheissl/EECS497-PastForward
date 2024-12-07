@@ -3,6 +3,7 @@
 <head>
     <title>PastForward</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/help-button.css') }}"> <!-- Help button styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -17,39 +18,78 @@
     />      
 </head>
 <body>
-    <header class="header-container">
-        <div class="logo-with-header">
-            <img src="{{ url_for('static', filename='src/logo.png') }}" alt="PastForward Logo">
-            <h1 class="logo-title">PastForward</h1>
+  <header class="header-container d-flex justify-content-between align-items-center p-3 bg-purple text-white">
+    <div class="logo-with-header d-flex align-items-center">
+        <img src="{{ url_for('static', filename='src/logo.png') }}" alt="PastForward Logo" style="height: 40px;">
+        <h1 class="logo-title ms-2">PastForward</h1>
+    </div>
+    <h1 id="page-title" class="page-title">Memory Feed</h1>
+    <div class="help-icon position-relative">
+        <div id="helpButton" class="rounded-circle bg-light text-dark d-flex justify-content-center align-items-center">
+            ?
         </div>
-        <h1 id="page-title" class="page-title">Memory Feed</h1>
-    </header>
+    </div>
+  </header>
+
+  <!-- Popup Modal -->
+  <div id="helpPopup" class="popup-modal">
+    <div class="popup-content">
+        <h2>Helpful Information</h2>
+        <p>Welcome to the Memory Feed! Here you can explore and interact with memories shared by your family.</p>
+        <button id="closePopup" class="btn btn-danger mt-3">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Elements
+    const helpButton = document.getElementById("helpButton");
+    const helpPopup = document.getElementById("helpPopup");
+    const closePopup = document.getElementById("closePopup");
+
+    // Show Popup
+    helpButton.addEventListener("click", () => {
+        helpPopup.style.display = "flex";
+    });
+
+    // Hide Popup
+    closePopup.addEventListener("click", () => {
+        helpPopup.style.display = "none";
+    });
+
+    // Close Popup on Outside Click
+    window.addEventListener("click", (event) => {
+        if (event.target === helpPopup) {
+            helpPopup.style.display = "none";
+        }
+    });
+  </script>
+
       
-    <footer class="fixed-bottom footer-bar bg-light">
-        <div class="container d-flex justify-content-between align-items-center">
-          <a href="{{ url_for('show_index') }}" class="footer-link text-center">
-            <i class="bi bi-geo-alt"></i>
-            <span>Memory Feed</span>
-          </a>
-          <a href="{{ url_for('show_explore') }}" class="footer-link text-center">
-            <i class="bi bi-people"></i>
-            <span>Families</span>
-          </a>
-          <a href="{{ url_for('show_user', username=logname) }}" class="footer-link text-center">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
-          </a>
-        </div>
-    </footer>
-      
+  <footer class="fixed-bottom footer-bar bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="{{ url_for('show_index') }}" class="footer-link text-center">
+          <i class="bi bi-geo-alt"></i>
+          <span>Memory Feed</span>
+        </a>
+        <a href="{{ url_for('show_explore') }}" class="footer-link text-center">
+          <i class="bi bi-people"></i>
+          <span>Families</span>
+        </a>
+        <a href="{{ url_for('show_user', username=logname) }}" class="footer-link text-center">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+  </footer>
+    
       
     
-    <main>
-        <div id="reactEntry">
-            Loading ...
-        </div>
-          <!-- Load JavaScript -->
-        <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
-    </main>
+  <main>
+      <div id="reactEntry">
+          Loading ...
+      </div>
+        <!-- Load JavaScript -->
+      <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
+  </main>
 </body>
 </html>
