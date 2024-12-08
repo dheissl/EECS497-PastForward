@@ -87,16 +87,19 @@
                         <span class="likes fw-bold text-dark">{{ post.likes }} like{% if post.likes != 1 %}s{% endif %}</span>
                         <div class="d-flex justify-content-between align-items-center mt-2">
                             {% if post.liked == False %}
-                            <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_posts', postid=postid) }}" method="post" class="me-3">
-                                <input type="hidden" name="operation" value="like">
-                                <button type="submit" class="btn btn-outline-primary btn-sm">Like</button>
-                            </form>
+                                <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_posts', postid=postid) }}" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="operation" value="like"/>
+                                    <input type="hidden" name="postid" value="{{ postid }}"/>
+                                    <input type="submit" name="like" value="Like" class="btn btn-outline-primary btn-sm"/>
+                                </form>
                             {% else %}
-                            <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_posts', postid=postid) }}" method="post" class="me-3">
-                                <input type="hidden" name="operation" value="unlike">
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Unlike</button>
-                            </form>
+                                <form action="{{ url_for('handle_likes') }}?target={{ url_for('show_posts', postid=postid) }}" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="operation" value="unlike"/>
+                                    <input type="hidden" name="postid" value="{{ postid }}"/>
+                                    <input type="submit" name="unlike" value="Unlike" class="btn btn-danger btn-sm"/>
+                                </form>
                             {% endif %}
+                        
                         </div>
 
                         <!-- Comments -->
@@ -108,20 +111,24 @@
                                 </span>
                                 <span class="comment-text ms-2">{{ comment.text }}</span>
                                 {% if comment.owner == logname %}
-                                <form action="{{ url_for('handle_comments') }}?target={{url_for('show_posts', postid=post.postid) }}" method="post" class="d-inline">
-                                    <input type="hidden" name="operation" value="delete">
-                                    <button type="submit" class="btn btn-link text-danger p-0">Delete</button>
+                                <!--TODO: FIX DELETE AND MAKE SERVERSIDE-->
+                                <form action="/api/v1/comments/{{ comment.commentid }}" method="post" class="d-inline">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
+                                
                                 {% endif %}
                             </div>
                             {% endfor %}
-                            <form action="{{ url_for('handle_comments') }}?target={{url_for('show_posts', postid=post.postid) }}" method="post" class="mt-2">
-                                <input type="hidden" name="operation" value="create">
+                            <form action="{{ url_for('handle_comments') }}?target={{url_for('show_posts', postid=post.postid) }}" method="post" enctype="multipart/form-data" class="mt-2">
+                                <input type="hidden" name="operation" value="create"/>
+                                <input type="hidden" name="postid" value="{{post.postid}}"/>
                                 <div class="input-group">
-                                    <input type="text" name="text" class="form-control" placeholder="Add a comment..." required>
-                                    <button type="submit" class="btn btn-primary">Comment</button>
+                                    <input type="text" name="text" class="form-control" placeholder="Add a comment..." required/>
+                                    <button type="submit" name="comment" class="btn btn-primary">Comment</button>
                                 </div>
                             </form>
+                            
                         </div>
                     </div>
                 </article>

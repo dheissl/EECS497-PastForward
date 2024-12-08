@@ -34,7 +34,7 @@ export default function Post({ url }) {
         if (!ignoreStaleRequest) {
           setImgUrl(data.imgUrl);
           setOwner(data.owner);
-          setTime(dayjs(data.created).fromNow());
+          setTime(dayjs.utc(data.created).local().fromNow());
           setScheduledDate(data.scheduled_date ? dayjs(data.scheduled_date).format("MMMM D, YYYY") : null); // Set scheduled date
           setDescription(data.description || ""); // Set description
           setLognameLikesThis(data.likes.lognameLikesThis);
